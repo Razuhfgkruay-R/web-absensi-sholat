@@ -4,117 +4,171 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Absensi Online IPM</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
+    * {
+      box-sizing: border-box;
     }
 
-    /* ===== WELCOME PAGE ===== */
-    #welcome {
-      min-height: 100vh;
+    body {
+      font-family: 'Poppins', sans-serif;
+      /* Background Gradient sesuai tema IPM (Kuning-Hijau Soft) */
+      background: linear-gradient(135deg, #fdfcf0 0%, #e2f3e5 100%);
+      margin: 0;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Efek Dekorasi Lingkaran di Background */
+    body::before, body::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(50px);
+    }
+    body::before { width: 300px; height: 300px; background: rgba(255, 235, 59, 0.3); top: -50px; left: -50px; }
+    body::after { width: 250px; height: 250px; background: rgba(76, 175, 80, 0.2); bottom: -50px; right: -50px; }
+
+    /* ===== CONTAINER UTAMA (GLASSMORPHISM) ===== */
+    #welcome, #dashboard {
+      background: rgba(255, 255, 255, 0.4); /* Transparan */
+      backdrop-filter: blur(15px); /* Efek Blur Kaca */
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 30px;
+      padding: 40px 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
       text-align: center;
-      padding: 20px;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .logo {
       display: flex;
-      gap: 5px;
-      margin-bottom: 20px;
+      justify-content: center;
+      gap: 0px;
+      margin-bottom: 30px;
     }
 
     .logo img {
-      width: 180px;
+      width: 140px; /* Ukuran lebih proporsional */
       height: auto;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+      transition: transform 0.3s ease;
+    }
+    
+    .logo img:hover {
+      transform: scale(1.1) rotate(5deg);
     }
 
     .judul {
       font-weight: 800;
-      font-size: 24px;
-      margin-bottom: 8px;
-      font-family: Poppins, sans-serif;
+      font-size: 22px;
+      color: #1e3a8a;
+      margin-bottom: 5px;
     }
 
     p {
       font-size: 14px;
-      color: #555;
-      margin-bottom: 24px;
+      color: #64748b;
+      margin-bottom: 30px;
     }
 
+    /* ===== TOMBOL MODERN ===== */
     button {
-      width: 80%;
-      max-width: 320px;
-      padding: 14px;
+      width: 100%;
+      padding: 15px;
       font-size: 16px;
+      font-weight: 600;
       border: none;
-      border-radius: 10px;
-      background: #2563eb;
+      border-radius: 50px; /* Pill shaped */
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
       color: white;
       cursor: pointer;
-      margin: 6px auto;
-      display: block;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background: #1e40af;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px rgba(37, 99, 235, 0.4);
+      background: linear-gradient(90deg, #1e40af, #2563eb);
+    }
+
+    button:active {
+      transform: scale(0.95);
     }
 
     /* ===== DASHBOARD ===== */
     #dashboard {
       display: none;
-      padding: 20px;
-      text-align: center;
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      gap: 15px;
       margin-top: 20px;
+    }
+
+    .grid button {
+      padding: 12px;
+      font-size: 14px;
+      background: white;
+      color: #2563eb;
+      border: 2px solid #2563eb;
+      box-shadow: none;
+    }
+
+    .grid button:hover {
+      background: #2563eb;
+      color: white;
     }
 
     /* ===== WATERMARK ===== */
     .wm {
       position: fixed;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
-      color: #999;
-      opacity: 0.7;
-      pointer-events: none;
+      bottom: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ===== WELCOME ===== -->
   <div id="welcome">
     <div class="logo">
       <img src="logo-ipm.png" alt="Logo IPM">
       <img src="logo-sekolah.png" alt="Logo Sekolah">
     </div>
 
-    <h1 class="judul">Welcome IPM SMAM 2 Beji</h1>
+    <h1 class="judul">Welcome <br>IPM SMAM 2 Beji</h1>
     <p>Website Absensi Online</p>
 
-    <button onclick="masuk()">Masuk</button>
+    <button onclick="masuk()">Masuk Sekarang</button>
   </div>
 
-  <!-- ===== DASHBOARD ===== -->
   <div id="dashboard">
-    <h2>Petugas Absensi</h2>
-    <p>Pilih Kelas</p>
+    <h2 class="judul">Petugas Absensi</h2>
+    <p>Pilih Kelas Untuk Input</p>
 
     <div class="grid">
-     <button onclick="bukaForm('https://forms.gle/NGUNFUoJSmVWtqp7A')">10.1</button>
+      <button onclick="bukaForm('https://forms.gle/NGUNFUoJSmVWtqp7A')">Kelas 10.1</button>
     <button onclick="bukaForm('https://forms.gle/o1oTzmM7y1HwzxEu9')">10.2</button>
     <button onclick="bukaForm('https://forms.gle/i4B7iGbD2Q5uy2i16')">10.3</button>
     <button onclick="bukaForm('https://forms.gle/YAUBrF9mhSi1ZB3P7')">10.4</button>
@@ -131,16 +185,21 @@
 <button onclick="bukaForm('https://forms.gle/wKzWN1wj3XpFcxdu9')">12 IPS.1</button>
 <button onclick="bukaForm('https://forms.gle/Q5VF9kUURpJ8GUG77')">12 IPS.2</button>
     </div>
+    
+    <button onclick="kembali()" style="margin-top: 20px; background: #64748b; font-size: 12px; padding: 10px;">Kembali</button>
   </div>
 
-  <!-- ===== WATERMARK ===== -->
   <div class="wm">powered by Razuhfgkruay</div>
 
-  <!-- ===== JAVASCRIPT ===== -->
   <script>
     function masuk() {
       document.getElementById("welcome").style.display = "none";
       document.getElementById("dashboard").style.display = "block";
+    }
+
+    function kembali() {
+      document.getElementById("welcome").style.display = "block";
+      document.getElementById("dashboard").style.display = "none";
     }
 
     function bukaForm(link) {
@@ -149,8 +208,4 @@
   </script>
 
 </body>
-
 </html>
-
-
-
