@@ -7,7 +7,7 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
-<style>
+  <style>
     :root {
       --bg-body: linear-gradient(135deg, #fdfcf0 0%, #e2f3e5 100%);
       --bg-card: rgba(255, 255, 255, 0.4);
@@ -40,6 +40,7 @@
       transition: background 0.5s ease;
     }
 
+    /* Dekorasi Background */
     body::before, body::after {
       content: "";
       position: absolute;
@@ -51,48 +52,33 @@
     body::after { width: 250px; height: 250px; background: rgba(76, 175, 80, 0.15); bottom: -50px; right: -50px; }
 
     .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 60px;
-      cursor: pointer;
-      z-index: 100;
+      position: fixed; top: 20px; right: 60px;
+      cursor: pointer; z-index: 100;
       background: var(--bg-card);
-      padding: 8px 15px;
-      border-radius: 25px;
+      padding: 8px 15px; border-radius: 25px;
       border: 1px solid var(--border-card);
       backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-judul);
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; color: var(--text-judul);
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
     }
 
-    #theme-icon {
-      font-size: 18px;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
+    #theme-icon { font-size: 18px; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
     .rotate-anim { transform: rotate(360deg); }
 
+    /* Card Utama */
     #welcome, #dashboard {
       background: var(--bg-card);
       backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
       border: 1px solid var(--border-card);
       border-radius: 30px;
       padding: 30px 20px;
-      width: 90%;
-      max-width: 400px;
+      width: 90%; max-width: 400px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.1);
       text-align: center;
       animation: fadeIn 0.8s ease-out;
       max-height: 85vh;
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
     }
 
     @keyframes fadeIn {
@@ -101,111 +87,71 @@
     }
 
     .logo { display: flex; justify-content: center; margin-bottom: 20px; }
-    .logo img { width: 140px; height: auto; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); transition: 0.3s; }
+    .logo img { width: 140px; height: auto; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
 
     .judul { font-weight: 800; font-size: 22px; color: var(--text-judul); margin: 0; }
     p { font-size: 13px; color: var(--text-p); margin-bottom: 20px; }
 
     .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      overflow-y: auto;
-      padding: 5px;
-      margin-bottom: 15px;
-      scrollbar-width: none;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      overflow-y: auto; padding: 5px; margin-bottom: 15px; scrollbar-width: none;
     }
     .grid::-webkit-scrollbar { display: none; }
 
     button {
-      width: 100%;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      border-radius: 50px;
-      background: var(--btn-grad);
-      color: white;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
+      width: 100%; padding: 14px; font-size: 15px; font-weight: 600;
+      border: none; border-radius: 50px;
+      background: var(--btn-grad); color: white;
+      cursor: pointer; transition: all 0.3s ease;
     }
+    button:active { transform: scale(0.95); }
 
     .grid button {
-      padding: 12px;
-      font-size: 13px;
-      background: white;
-      color: #2563eb;
+      padding: 12px; font-size: 13px; background: white; color: #2563eb;
       border: 2px solid #2563eb;
-      box-shadow: none;
     }
     [data-theme="dark"] .grid button { background: #1e293b; border-color: #3b82f6; color: #60a5fa; }
 
-    .btn-about {
-      background: transparent;
-      border: 2px solid #3b82f6;
-      color: var(--text-judul);
-      margin-top: 10px;
-    }
-
+    .btn-about { background: transparent; border: 2px solid #3b82f6; color: var(--text-judul); margin-top: 10px; }
     .btn-back { background: #64748b; font-size: 12px; padding: 10px; margin-top: auto; }
 
-    /* ===== PERBAIKAN MODAL WARNA PUTIH ===== */
-    /* ===== MODAL DENGAN PERBAIKAN TEKS & GESER ===== */
+    /* MODAL SYSTEM (Tentang & Password) */
     .modal {
-      display: none; 
-      position: fixed; 
-      top: 0px; 
-      left: 0px; /* Tetap 0 agar overlay background menutupi seluruh layar */
-      width: 100%; 
-      height: 100%;
-      background: rgba(0,0,0,0.7); /* Overlay gelap agar teks putih menonjol */
-      backdrop-filter: blur(8px); 
-      z-index: 200;
-      justify-content: center; 
-      align-items: center;
-      display: none; /* Akan diubah jadi 'flex' melalui JS */
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+      z-index: 200; justify-content: center; align-items: center;
     }
 
     .modal-content {
-      background: rgba(20, 30, 50, 0.95); /* Background gelap permanen */
-      padding: 30px;
-      border-radius: 25px; 
-      width: 85%; 
-      max-width: 350px; 
+      background: rgba(20, 30, 50, 0.95);
+      padding: 30px; border-radius: 25px;
+      width: 85%; max-width: 350px;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      text-align: center;
       box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-      
-      /* --- INI PERBAIKAN UNTUK GESER KE KIRI --- */
-      transform: translateX(-27px); 
+      transform: translateX(-27px); /* Sesuai permintaan geser kiri */
+      text-align: center;
     }
 
-    /* Warna Teks Putih Permanen (Mode Terang/Gelap Tetap Putih) */
-    .modal-content .judul, 
-    .modal-content p {
-      color: #ffffff !important; /* Paksa jadi putih cerah */
-      text-align: justify !important;
+    .modal-content .judul, .modal-content p { color: #ffffff !important; }
+    .modal-content p { text-align: justify !important; font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
+
+    /* Input Password Design */
+    .pass-input {
+      width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1); color: white; text-align: center;
+      font-size: 16px; margin-bottom: 20px; outline: none; transition: 0.3s;
     }
+    .pass-input:focus { border-color: #3b82f6; background: rgba(255,255,255,0.2); }
 
-    .modal-content p {
-      text-align: justify; 
-      font-size: 13px; 
-      line-height: 1.6;
-      opacity: 1; /* Pastikan tidak transparan */
-    }
-
-
-    .wm { position: fixed; bottom: 50px; font-size: 11px; color: #94a3b8; text-transform: uppercase; z-index: -1; }
-</style>
-
+    .wm { position: fixed; bottom: 20px; font-size: 11px; color: #94a3b8; text-transform: uppercase; z-index: -1; }
+  </style>
 </head>
 
 <body>
 
   <div class="theme-toggle" onclick="toggleTheme()">
     <span id="theme-text">Mode Terang</span>
-    <span id="theme-icon">🌓</span>
+    <span id="theme-icon">🌗</span>
   </div>
 
   <div id="welcome">
@@ -215,7 +161,7 @@
     </div>
     <h1 class="judul">Welcome <br>IPM SMAM 2 Beji</h1>
     <p>Website Absensi Online</p>
-    <button onclick="masuk()">Masuk Sekarang</button>
+    <button onclick="togglePassModal(true)">Masuk Sekarang</button>
     <button class="btn-about" onclick="toggleModal(true)">Tentang</button>
   </div>
 
@@ -249,22 +195,44 @@
       <p style="text-align: left; font-size: 13px; line-height: 1.6;">
         Website ini dikembangkan untuk memudahkan IPM dalam mendata pembelajaran ibadah siswa secara digital. 
         <br><br>
-        Dengan sistem ini, data lebih terorganisir dan dapat diakses dengan cepat. Silakan isi form sesuai dengan kelas yang bertugas.
+        Dengan sistem ini, data lebih terorganisir dan dapat diakses dengan cepat. Silakan isi form sesuai dengan kelas yang ditugaskan.
         <br><br>
         Project KDI 2026-2027 
         <br>
         Support By Razuhfgkruay
       </p>
-      <button onclick="toggleModal(false)" style="font-size: 12px;">Tutup</button>
+      <button onclick="toggleModal(false)" style="font-size: 12px; background: #64748b;">Tutup</button>
+    </div>
+  </div>
+
+  <div id="modalPassword" class="modal">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <h3 class="judul">Akses Petugas</h3>
+      <p style="text-align: center !important;">Silakan masukkan password untuk melanjutkan.</p>
+      <input type="password" id="passInput" class="pass-input" placeholder="Password Disini...">
+      <button onclick="cekPassword()">Konfirmasi</button>
+      <button onclick="togglePassModal(false)" style="background: transparent; border: none; margin-top: 10px; font-size: 12px; color: #94a3b8;">Batal</button>
     </div>
   </div>
 
   <div class="wm">Support by Razuhfgkruay</div>
 
   <script>
-    function masuk() {
-      document.getElementById("welcome").style.display = "none";
-      document.getElementById("dashboard").style.display = "flex";
+    function togglePassModal(show) {
+      document.getElementById("modalPassword").style.display = show ? "flex" : "none";
+      if(show) document.getElementById("passInput").focus();
+    }
+
+    function cekPassword() {
+      const pass = document.getElementById("passInput").value;
+      if (pass === "adminku123") {
+        togglePassModal(false);
+        document.getElementById("welcome").style.display = "none";
+        document.getElementById("dashboard").style.display = "flex";
+        document.getElementById("passInput").value = ""; // Reset input
+      } else {
+        alert("Password Salah!");
+      }
     }
 
     function kembali() {
@@ -278,10 +246,8 @@
       const body = document.documentElement;
       const text = document.getElementById("theme-text");
       const icon = document.getElementById("theme-icon");
-      
       icon.classList.add("rotate-anim");
       setTimeout(() => icon.classList.remove("rotate-anim"), 600);
-
       if (body.getAttribute("data-theme") === "dark") {
         body.setAttribute("data-theme", "light");
         text.innerText = "Mode Terang";
@@ -296,191 +262,5 @@
     }
   </script>
 </body>
-</html>
-<style>
-    :root {
-      --bg-body: linear-gradient(135deg, #fdfcf0 0%, #e2f3e5 100%);
-      --bg-card: rgba(255, 255, 255, 0.4);
-      --text-judul: #1e3a8a;
-      --text-p: #64748b;
-      --btn-grad: linear-gradient(90deg, #2563eb, #3b82f6);
-      --border-card: rgba(255, 255, 255, 0.5);
-    }
-
-    [data-theme="dark"] {
-      --bg-body: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      --bg-card: rgba(30, 41, 59, 0.7);
-      --text-judul: #f1f5f9;
-      --text-p: #94a3b8;
-      --btn-grad: linear-gradient(90deg, #3b82f6, #60a5fa);
-      --border-card: rgba(255, 255, 255, 0.1);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg-body);
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
-      transition: background 0.5s ease;
-    }
-
-    body::before, body::after {
-      content: "";
-      position: absolute;
-      z-index: -1;
-      border-radius: 50%;
-      filter: blur(50px);
-    }
-    body::before { width: 300px; height: 300px; background: rgba(255, 235, 59, 0.2); top: -50px; left: -50px; }
-    body::after { width: 250px; height: 250px; background: rgba(76, 175, 80, 0.15); bottom: -50px; right: -50px; }
-
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 60px;
-      cursor: pointer;
-      z-index: 100;
-      background: var(--bg-card);
-      padding: 8px 15px;
-      border-radius: 25px;
-      border: 1px solid var(--border-card);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-judul);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-    }
-
-    #theme-icon {
-      font-size: 18px;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .rotate-anim { transform: rotate(360deg); }
-
-    #welcome, #dashboard {
-      background: var(--bg-card);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid var(--border-card);
-      border-radius: 30px;
-      padding: 30px 20px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      text-align: center;
-      animation: fadeIn 0.8s ease-out;
-      max-height: 85vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .logo { display: flex; justify-content: center; margin-bottom: 20px; }
-    .logo img { width: 140px; height: auto; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); transition: 0.3s; }
-
-    .judul { font-weight: 800; font-size: 22px; color: var(--text-judul); margin: 0; }
-    p { font-size: 13px; color: var(--text-p); margin-bottom: 20px; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      overflow-y: auto;
-      padding: 5px;
-      margin-bottom: 15px;
-      scrollbar-width: none;
-    }
-    .grid::-webkit-scrollbar { display: none; }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      border-radius: 50px;
-      background: var(--btn-grad);
-      color: white;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-    }
-
-    .grid button {
-      padding: 12px;
-      font-size: 13px;
-      background: white;
-      color: #2563eb;
-      border: 2px solid #2563eb;
-      box-shadow: none;
-    }
-    [data-theme="dark"] .grid button { background: #1e293b; border-color: #3b82f6; color: #60a5fa; }
-
-    .btn-about {
-      background: transparent;
-      border: 2px solid #3b82f6;
-      color: var(--text-judul);
-      margin-top: 10px;
-    }
-
-    .btn-back { background: #64748b; font-size: 12px; padding: 10px; margin-top: auto; }
-
-    /* ===== PERBAIKAN MODAL WARNA PUTIH ===== */
-    .modal {
-      display: none; 
-      position: fixed; 
-      top: 0; 
-      left: 0; /* Dikembalikan ke 0 agar tidak miring */
-      width: 100%; 
-      height: 100%;
-      background: rgba(0,0,0,0.7); /* Overlay digelapkan agar teks putih menonjol */
-      backdrop-filter: blur(8px); 
-      z-index: 200;
-      justify-content: center; 
-      align-items: center;
-    }
-
-    .modal-content {
-      background: rgba(20, 30, 50, 0.95); /* Background gelap agar teks putih kontras */
-      padding: 30px;
-      border-radius: 25px; 
-      width: 85%; 
-      max-width: 350px; 
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      text-align: center;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    }
-
-    /* Warna Teks Putih Permanen */
-    .modal-content .judul, 
-    .modal-content p {
-      color: #ffffff !important; /* Paksa jadi putih cerah */
-    }
-
-    .modal-content p {
-      text-align: left; 
-      font-size: 13px; 
-      line-height: 1.6;
-      opacity: 1; /* Pastikan tidak transparan */
-    }
-
-    .wm { position: fixed; bottom: 50px; font-size: 11px; color: #94a3b8; text-transform: uppercase; z-index: -1; }
-</style>
-
-
-
+        </html>
+        
