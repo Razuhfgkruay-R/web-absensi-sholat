@@ -290,6 +290,59 @@
       text-transform: uppercase;
       z-index: 5;
     }
+    .pass-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.pass-input {
+  width: 100%; 
+  padding: 12px 20px; /* Beri jarak kanan agar teks tidak tertutup mata */
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
+  color: white;
+  text-align: center;
+  outline: none;
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 10px;
+  top: 35%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  font-size: 18px;
+  user-select: none; /* Agar ikon tidak terpilih saat di-klik */
+}
+/* Efek Cahaya Mengalir untuk Judul Modal */
+.glow-text {
+  background: linear-gradient(
+    to right, 
+    #ffffff 20%, 
+    #3b82f6 40%, 
+    #3b82f6 60%, 
+    #ffffff 80%
+  );
+  background-size: 200% auto;
+  color: white;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+  font-weight: 800;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+    
   </style>
 </head>
 
@@ -341,10 +394,10 @@
     <button class="btn-back" onclick="kembali()">Kembali</button>
   </div>
 
-  <div id="modalTentang" class="modal" onclick="toggleModal(false)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <h3 class="judul">Tentang Website</h3>
-      <p>
+  <div id="modalTentang" class="modal">
+  <div class="modal-content">
+    <h3 class="judul glow-text">Tentang Website</h3>
+    <p>
         Website ini dikembangkan untuk memudahkan IPM dalam mendata pembelajaran ibadah siswa secara digital.
         <br><br>
         Dengan sistem ini, data lebih terorganisir dan dapat diakses dengan cepat.
@@ -352,39 +405,76 @@
         Project KDI 2026–2027<br>
         Support By Razuhfgkruay
       </p>
-      <button onclick="toggleModal(false)" style="background:#64748b;font-size:12px;">Tutup</button>
-    </div>
+        <button onclick="toggleModal(false)" style="background:#64748b;font-size:12px;margin-top:10px;">Tutup</button>
   </div>
+</div>
 
-  <div id="modalPassword" class="modal">
+    <div id="modalPassword" class="modal">
     <div class="modal-content" onclick="event.stopPropagation()">
       <h3 class="judul">Akses Petugas</h3>
       <p style="text-align:center!important;">Silakan masukkan password.</p>
+      
+  <div class="pass-container">
       <input type="password" id="passInput" class="pass-input" placeholder="Password Disini...">
+      <span class="toggle-eye" id="toggleEye" onclick="togglePasswordVisibility()">🫣</span>
+    </div>
+      
+      <div id="errorMsg" style="color: #ff4d4d; font-size: 12px; margin-bottom: 15px; display: none; font-weight: 600;">
+        ❌ Password Salah, Coba Lagi!
+      </div>
+
       <button onclick="cekPassword()">Konfirmasi</button>
       <button onclick="togglePassModal(false)" style="background:none;border:none;color:#94a3b8;font-size:12px;margin-top:10px;">Batal</button>
     </div>
   </div>
 
+
   <div class="wm">Support by Razuhfgkruay</div>
 
   <script>
-    function togglePassModal(show) {
+        function togglePassModal(show) {
       document.getElementById("modalPassword").style.display = show ? "flex" : "none";
-      if (show) document.getElementById("passInput").focus();
+      if (show) {
+        document.getElementById("passInput").focus();
+        // Sembunyikan pesan salah setiap kali modal dibuka ulang
+        document.getElementById("errorMsg").style.display = "none";
+      }
     }
 
     function cekPassword() {
       const pass = document.getElementById("passInput").value;
-      if (pass === "adminku123") {
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (pass === "kkkk") {
+        errorMsg.style.display = "none"; // Sembunyikan pesan jika benar
         togglePassModal(false);
         document.getElementById("welcome").style.display = "none";
         document.getElementById("dashboard").style.display = "flex";
         document.getElementById("passInput").value = "";
       } else {
-        alert("Password Salah!");
+        // Tampilkan tulisan "Password Salah" tanpa alert
+        errorMsg.style.display = "block";
+        // Tambahkan sedikit getaran agar user sadar ada kesalahan
+        document.getElementById("passInput").style.borderColor = "#ff4d4d";
+        setTimeout(() => {
+          document.getElementById("passInput").style.borderColor = "rgba(255,255,255,0.3)";
+        }, 500);
       }
     }
+    
+    function togglePasswordVisibility() {
+  const passInput = document.getElementById("passInput");
+  const toggleEye = document.getElementById("toggleEye");
+  
+  if (passInput.type === "password") {
+    passInput.type = "text";
+    toggleEye.innerText = "😳"; // Berubah jadi monyet tutup mata
+  } else {
+    passInput.type = "password";
+    toggleEye.innerText = "🫣"; // Berubah jadi mata terbuka
+  }
+}
+
 
     function kembali() {
       document.getElementById("welcome").style.display = "flex";
@@ -418,5 +508,5 @@
   </script>
 
 </body>
-</html>
-
+  </html>
+        
