@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Absensi Online IPM</title>
-  
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
@@ -15,6 +15,7 @@
       --text-p: #64748b;
       --btn-grad: linear-gradient(90deg, #2563eb, #3b82f6);
       --border-card: rgba(255, 255, 255, 0.5);
+      --blob-opacity: 0.5;
     }
 
     [data-theme="dark"] {
@@ -24,9 +25,12 @@
       --text-p: #94a3b8;
       --btn-grad: linear-gradient(90deg, #3b82f6, #60a5fa);
       --border-card: rgba(255, 255, 255, 0.1);
+      --blob-opacity: 0.2;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Poppins', sans-serif;
@@ -38,47 +42,109 @@
       min-height: 100vh;
       overflow: hidden;
       transition: background 0.5s ease;
+      position: relative;
     }
 
-    /* Dekorasi Background */
-    body::before, body::after {
-      content: "";
-      position: absolute;
+    /* BACKGROUND BLOBS */
+    .blob-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: -1;
-      border-radius: 50%;
-      filter: blur(50px);
+      overflow: hidden;
+      filter: blur(70px);
     }
-    body::before { width: 300px; height: 300px; background: rgba(255, 235, 59, 0.2); top: -50px; left: -50px; }
-    body::after { width: 250px; height: 250px; background: rgba(76, 175, 80, 0.15); bottom: -50px; right: -50px; }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      opacity: var(--blob-opacity);
+      animation: move 20s infinite alternate ease-in-out;
+      transition: opacity 0.5s ease;
+    }
+
+    .blob-blue {
+      width: 400px;
+      height: 400px;
+      background: #3b82f6;
+      top: -10%;
+      left: -10%;
+    }
+
+    .blob-yellow {
+      width: 450px;
+      height: 450px;
+      background: #fbbf24;
+      bottom: -5%;
+      right: -5%;
+      animation-duration: 25s;
+      animation-delay: -5s;
+    }
+
+    .blob-cyan {
+      width: 300px;
+      height: 300px;
+      background: #22d3ee;
+      top: 40%;
+      left: 30%;
+      animation-duration: 18s;
+      animation-delay: -2s;
+    }
+
+    @keyframes move {
+      0% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30vw, 20vh) scale(1.1); }
+      66% { transform: translate(-5vw, 35vh) scale(0.9); }
+      100% { transform: translate(10vw, -5vh) scale(1); }
+    }
 
     .theme-toggle {
-      position: fixed; top: 20px; right: 60px;
-      cursor: pointer; z-index: 100;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      z-index: 100;
       background: var(--bg-card);
-      padding: 8px 15px; border-radius: 25px;
+      padding: 8px 15px;
+      border-radius: 25px;
       border: 1px solid var(--border-card);
       backdrop-filter: blur(10px);
-      display: flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 600; color: var(--text-judul);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-judul);
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
-    #theme-icon { font-size: 18px; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-    .rotate-anim { transform: rotate(360deg); }
+    #theme-icon {
+      font-size: 18px;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-    /* Card Utama */
-    #welcome, #dashboard {
+    .rotate-anim {
+      transform: rotate(360deg);
+    }
+
+    #welcome,
+    #dashboard {
       background: var(--bg-card);
-      backdrop-filter: blur(15px);
+      backdrop-filter: blur(20px);
       border: 1px solid var(--border-card);
       border-radius: 30px;
       padding: 30px 20px;
-      width: 90%; max-width: 400px;
+      width: 90%;
+      max-width: 400px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.1);
       text-align: center;
       animation: fadeIn 0.8s ease-out;
       max-height: 85vh;
-      display: flex; flex-direction: column;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
     }
 
     @keyframes fadeIn {
@@ -86,68 +152,154 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .logo { display: flex; justify-content: center; margin-bottom: 20px; }
-    .logo img { width: 140px; height: auto; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
 
-    .judul { font-weight: 800; font-size: 22px; color: var(--text-judul); margin: 0; }
-    p { font-size: 13px; color: var(--text-p); margin-bottom: 20px; }
+    .logo img {
+      width: 80px;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+    }
+
+    .judul {
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--text-judul);
+      margin: 0;
+    }
+
+    p {
+      font-size: 13px;
+      color: var(--text-p);
+      margin-bottom: 20px;
+    }
 
     .grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-      overflow-y: auto; padding: 5px; margin-bottom: 15px; scrollbar-width: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      overflow-y: auto;
+      padding: 5px;
+      margin-bottom: 15px;
+      scrollbar-width: none;
     }
-    .grid::-webkit-scrollbar { display: none; }
+
+    .grid::-webkit-scrollbar {
+      display: none;
+    }
 
     button {
-      width: 100%; padding: 14px; font-size: 15px; font-weight: 600;
-      border: none; border-radius: 50px;
-      background: var(--btn-grad); color: white;
-      cursor: pointer; transition: all 0.3s ease;
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      background: var(--btn-grad);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
-    button:active { transform: scale(0.95); }
+
+    button:active {
+      transform: scale(0.95);
+    }
 
     .grid button {
-      padding: 12px; font-size: 13px; background: white; color: #2563eb;
+      padding: 12px;
+      font-size: 13px;
+      background: white;
+      color: #2563eb;
       border: 2px solid #2563eb;
     }
-    [data-theme="dark"] .grid button { background: #1e293b; border-color: #3b82f6; color: #60a5fa; }
 
-    .btn-about { background: transparent; border: 2px solid #3b82f6; color: var(--text-judul); margin-top: 10px; }
-    .btn-back { background: #64748b; font-size: 12px; padding: 10px; margin-top: auto; }
+    [data-theme="dark"] .grid button {
+      background: #1e293b;
+      border-color: #3b82f6;
+      color: #60a5fa;
+    }
 
-    /* MODAL SYSTEM (Tentang & Password) */
+    .btn-about {
+      background: transparent;
+      border: 2px solid #3b82f6;
+      color: var(--text-judul);
+      margin-top: 10px;
+    }
+
+    .btn-back {
+      background: #64748b;
+      font-size: 12px;
+      padding: 10px;
+      margin-top: auto;
+    }
+
     .modal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
-      z-index: 200; justify-content: center; align-items: center;
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
     }
 
     .modal-content {
       background: rgba(20, 30, 50, 0.95);
-      padding: 30px; border-radius: 25px;
-      width: 85%; max-width: 350px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 25px;
+      width: 85%;
+      max-width: 350px;
+      border: 1px solid rgba(255,255,255,0.2);
       box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-      transform: translateX(-27px); /* Sesuai permintaan geser kiri */
       text-align: center;
     }
 
-    .modal-content .judul, .modal-content p { color: #ffffff !important; }
-    .modal-content p { text-align: justify !important; font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
-
-    /* Input Password Design */
-    .pass-input {
-      width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.3);
-      background: rgba(255,255,255,0.1); color: white; text-align: center;
-      font-size: 16px; margin-bottom: 20px; outline: none; transition: 0.3s;
+    .modal-content .judul,
+    .modal-content p {
+      color: white !important;
     }
-    .pass-input:focus { border-color: #3b82f6; background: rgba(255,255,255,0.2); }
 
-    .wm { position: fixed; bottom: 20px; font-size: 11px; color: #94a3b8; text-transform: uppercase; z-index: -1; }
+    .modal-content p {
+      text-align: justify !important;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .pass-input {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1);
+      color: white;
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    .wm {
+      position: fixed;
+      bottom: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      z-index: 5;
+    }
   </style>
 </head>
 
 <body>
+
+  <div class="blob-wrapper">
+    <div class="blob blob-blue"></div>
+    <div class="blob blob-yellow"></div>
+    <div class="blob blob-cyan"></div>
+  </div>
 
   <div class="theme-toggle" onclick="toggleTheme()">
     <span id="theme-text">Mode Terang</span>
@@ -156,8 +308,8 @@
 
   <div id="welcome">
     <div class="logo">
-      <img src="logo-ipm.png" alt="Logo IPM">
-      <img src="logo-sekolah.png" alt="Logo Sekolah">
+      <img src="logo-ipm.png" alt="IPM">
+      <img src="logo-sekolah.png" alt="SMAM">
     </div>
     <h1 class="judul">Welcome <br>IPM SMAM 2 Beji</h1>
     <p>Website Absensi Online</p>
@@ -186,32 +338,31 @@
       <button onclick="bukaForm('https://forms.gle/wKzWN1wj3XpFcxdu9')">12 IPS.1</button>
       <button onclick="bukaForm('https://forms.gle/Q5VF9kUURpJ8GUG77')">12 IPS.2</button>
     </div>
-    <button onclick="kembali()" class="btn-back">Kembali</button>
+    <button class="btn-back" onclick="kembali()">Kembali</button>
   </div>
 
   <div id="modalTentang" class="modal" onclick="toggleModal(false)">
     <div class="modal-content" onclick="event.stopPropagation()">
       <h3 class="judul">Tentang Website</h3>
-      <p style="text-align: left; font-size: 13px; line-height: 1.6;">
-        Website ini dikembangkan untuk memudahkan IPM dalam mendata pembelajaran ibadah siswa secara digital. 
+      <p>
+        Website ini dikembangkan untuk memudahkan IPM dalam mendata pembelajaran ibadah siswa secara digital.
         <br><br>
-        Dengan sistem ini, data lebih terorganisir dan dapat diakses dengan cepat. Silakan isi form sesuai dengan kelas yang ditugaskan.
+        Dengan sistem ini, data lebih terorganisir dan dapat diakses dengan cepat.
         <br><br>
-        Project KDI 2026-2027 
-        <br>
+        Project KDI 2026–2027<br>
         Support By Razuhfgkruay
       </p>
-      <button onclick="toggleModal(false)" style="font-size: 12px; background: #64748b;">Tutup</button>
+      <button onclick="toggleModal(false)" style="background:#64748b;font-size:12px;">Tutup</button>
     </div>
   </div>
 
   <div id="modalPassword" class="modal">
     <div class="modal-content" onclick="event.stopPropagation()">
       <h3 class="judul">Akses Petugas</h3>
-      <p style="text-align: center !important;">Silakan masukkan password untuk melanjutkan.</p>
+      <p style="text-align:center!important;">Silakan masukkan password.</p>
       <input type="password" id="passInput" class="pass-input" placeholder="Password Disini...">
       <button onclick="cekPassword()">Konfirmasi</button>
-      <button onclick="togglePassModal(false)" style="background: transparent; border: none; margin-top: 10px; font-size: 12px; color: #94a3b8;">Batal</button>
+      <button onclick="togglePassModal(false)" style="background:none;border:none;color:#94a3b8;font-size:12px;margin-top:10px;">Batal</button>
     </div>
   </div>
 
@@ -220,7 +371,7 @@
   <script>
     function togglePassModal(show) {
       document.getElementById("modalPassword").style.display = show ? "flex" : "none";
-      if(show) document.getElementById("passInput").focus();
+      if (show) document.getElementById("passInput").focus();
     }
 
     function cekPassword() {
@@ -229,7 +380,7 @@
         togglePassModal(false);
         document.getElementById("welcome").style.display = "none";
         document.getElementById("dashboard").style.display = "flex";
-        document.getElementById("passInput").value = ""; // Reset input
+        document.getElementById("passInput").value = "";
       } else {
         alert("Password Salah!");
       }
@@ -240,19 +391,23 @@
       document.getElementById("dashboard").style.display = "none";
     }
 
-    function bukaForm(link) { window.location.href = link; }
+    function bukaForm(link) {
+      window.location.href = link;
+    }
 
     function toggleTheme() {
-      const body = document.documentElement;
+      const root = document.documentElement;
       const text = document.getElementById("theme-text");
       const icon = document.getElementById("theme-icon");
+
       icon.classList.add("rotate-anim");
       setTimeout(() => icon.classList.remove("rotate-anim"), 600);
-      if (body.getAttribute("data-theme") === "dark") {
-        body.setAttribute("data-theme", "light");
+
+      if (root.getAttribute("data-theme") === "dark") {
+        root.setAttribute("data-theme", "light");
         text.innerText = "Mode Terang";
       } else {
-        body.setAttribute("data-theme", "dark");
+        root.setAttribute("data-theme", "dark");
         text.innerText = "Mode Gelap";
       }
     }
@@ -261,8 +416,6 @@
       document.getElementById("modalTentang").style.display = show ? "flex" : "none";
     }
   </script>
+
 </body>
-        </html>
-        
-
-
+</html>
