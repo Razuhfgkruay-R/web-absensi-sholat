@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Absensi Online IPM</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -28,9 +28,7 @@
       --blob-opacity: 0.2;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: 'Poppins', sans-serif;
@@ -45,304 +43,196 @@
       position: relative;
     }
 
-    /* BACKGROUND BLOBS */
     .blob-wrapper {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-      filter: blur(70px);
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1; overflow: hidden; filter: blur(70px);
     }
-
     .blob {
-      position: absolute;
-      border-radius: 50%;
+      position: absolute; border-radius: 50%;
       opacity: var(--blob-opacity);
       animation: move 20s infinite alternate ease-in-out;
-      transition: opacity 0.5s ease;
     }
-
-    .blob-blue {
-      width: 400px;
-      height: 400px;
-      background: #3b82f6;
-      top: -10%;
-      left: -10%;
-    }
-
-    .blob-yellow {
-      width: 450px;
-      height: 450px;
-      background: #fbbf24;
-      bottom: -5%;
-      right: -5%;
-      animation-duration: 25s;
-      animation-delay: -5s;
-    }
-
-    .blob-cyan {
-      width: 300px;
-      height: 300px;
-      background: #22d3ee;
-      top: 40%;
-      left: 30%;
-      animation-duration: 18s;
-      animation-delay: -2s;
-    }
+    .blob-blue { width: 400px; height: 400px; background: #3b82f6; top: -10%; left: -10%; }
+    .blob-yellow { width: 450px; height: 450px; background: #fbbf24; bottom: -5%; right: -5%; animation-duration: 25s; }
+    .blob-cyan { width: 300px; height: 300px; background: #22d3ee; top: 40%; left: 30%; animation-duration: 18s; }
 
     @keyframes move {
       0% { transform: translate(0, 0) scale(1); }
       33% { transform: translate(30vw, 20vh) scale(1.1); }
-      66% { transform: translate(-5vw, 35vh) scale(0.9); }
       100% { transform: translate(10vw, -5vh) scale(1); }
     }
 
     .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      cursor: pointer;
-      z-index: 100;
-      background: var(--bg-card);
-      padding: 8px 15px;
-      border-radius: 25px;
-      border: 1px solid var(--border-card);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-judul);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      position: fixed; top: 20px; right: 20px; cursor: pointer; z-index: 100;
+      background: var(--bg-card); padding: 8px 15px; border-radius: 25px;
+      border: 1px solid var(--border-card); backdrop-filter: blur(10px);
+      display: flex; align-items: center; gap: 10px; font-size: 12px;
+      font-weight: 600; color: var(--text-judul); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
+    #theme-icon-container {
+      width: 20px; height: 20px; display: flex; align-items: center;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+    }
+    #theme-icon-container svg { width: 100%; height: 100%; fill: currentColor; }
+    .rotate-anim { transform: rotate(360deg); opacity: 0; }
 
-    #theme-icon {
-      font-size: 18px;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    #welcome, #dashboard {
+      background: var(--bg-card); backdrop-filter: blur(20px);
+      border: 1px solid var(--border-card); border-radius: 30px;
+      padding: 30px 20px; width: 92%; max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center;
+      animation: fadeIn 0.8s ease-out; max-height: 85vh;
+      display: flex; flex-direction: column; z-index: 10;
     }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .rotate-anim {
-      transform: rotate(360deg);
-    }
+    .logo { display: flex; justify-content: center; margin-bottom: 20px; }
+    .logo img { width: 140px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
 
-    #welcome,
-    #dashboard {
-      background: var(--bg-card);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border-card);
-      border-radius: 30px;
-      padding: 30px 20px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      text-align: center;
-      animation: fadeIn 0.8s ease-out;
-      max-height: 85vh;
-      display: flex;
-      flex-direction: column;
-      z-index: 10;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .logo {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-      gap: 0px;
-    }
-
-    .logo img {
-      width: 150px;
-      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
-    }
-
-    .judul {
-      font-weight: 800;
-      font-size: 27px;
-      color: var(--text-judul);
-      margin: 0;
-    }
-
-    p {
-      font-size: 13px;
-      color: var(--text-p);
-      margin-bottom: 20px;
-    }
+    .judul { font-weight: 800; font-size: 26px; color: var(--text-judul); margin: 0; }
+    p { font-size: 13px; color: var(--text-p); margin-bottom: 20px; }
 
     .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      overflow-y: auto;
-      padding: 5px;
-      margin-bottom: 15px;
-      scrollbar-width: none;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+      overflow-y: auto; padding: 5px; margin-bottom: 15px; scrollbar-width: none;
     }
+    .grid::-webkit-scrollbar { display: none; }
 
-    .grid::-webkit-scrollbar {
-      display: none;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      border-radius: 50px;
-      background: var(--btn-grad);
-      color: white;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    button:active {
-      transform: scale(0.95);
+    .tingkat-header {
+      grid-column: span 2; text-align: left; font-size: 12px; font-weight: 800;
+      margin-top: 12px; padding-left: 10px; color: var(--text-judul);
+      border-left: 4px solid #3b82f6; text-transform: uppercase; letter-spacing: 1px;
     }
 
     .grid button {
-      padding: 12px;
-      font-size: 13px;
-      background: white;
-      color: #2563eb;
-      border: 2px solid #2563eb;
+      padding: 12px 5px; font-size: 13px; font-weight: 700; border-radius: 12px;
+      background: white; transition: all 0.2s; border: 1.5px solid;
     }
+    .btn-10 { color: #059669; border-color: #059669; }
+    .btn-11 { color: #d97706; border-color: #d97706; }
+    .btn-12 { color: #2563eb; border-color: #2563eb; }
+    [data-theme="dark"] .grid button { background: rgba(255,255,255,0.05); }
 
-    [data-theme="dark"] .grid button {
-      background: #1e293b;
-      border-color: #3b82f6;
-      color: #60a5fa;
+    button {
+      width: 100%; padding: 14px; font-size: 15px; font-weight: 600;
+      border: none; border-radius: 50px; background: var(--btn-grad);
+      color: white; cursor: pointer; transition: 0.3s;
     }
+    button:active { transform: scale(0.96); }
 
-    .btn-about {
-      background: transparent;
-      border: 2px solid #3b82f6;
-      color: var(--text-judul);
-      margin-top: 10px;
-    }
-
-    .btn-back {
-      background: #64748b;
-      font-size: 12px;
-      padding: 10px;
-      margin-top: auto;
-    }
+    .btn-about { background: transparent; border: 2px solid #3b82f6; color: var(--text-judul); margin-top: 10px; }
+    .btn-back { background: #64748b; font-size: 12px; padding: 10px; margin-top: auto; }
 
     .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(8px);
-      z-index: 200;
-      justify-content: center;
-      align-items: center;
+      display: none; position: fixed; inset: 0; 
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px); z-index: 200; 
+      justify-content: center; align-items: center;
     }
 
     .modal-content {
-      background: rgba(20, 30, 50, 0.95);
-      padding: 30px;
-      border-radius: 25px;
-      width: 85%;
-      max-width: 350px;
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      background: rgba(18, 20, 30, 0.95);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      padding: 40px 25px;
+      border-radius: 30px;
+      width: 90%; max-width: 360px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.2); 
       text-align: center;
+      position: relative; overflow: hidden;
     }
 
-    .modal-content .judul,
-    .modal-content p {
-      color: white !important;
+    .modal-content::before {
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    .modal-content > * { position: relative; z-index: 1; }
+
+    .special-icon {
+      width: 70px; height: 70px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; color: white;
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+      animation: floatIcon 3s ease-in-out infinite;
+    }
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
     }
 
-    .modal-content p {
-      text-align: justify !important;
-      font-size: 13px;
-      line-height: 1.6;
+    .gradient-text {
+      font-size: 24px; font-weight: 800; margin: 0 0 10px 0;
+      background: linear-gradient(to right, #ffffff, #93c5fd);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px; color: white;
     }
+    .modal-desc {
+      color: #e2e8f0; font-size: 14px; line-height: 1.6;
+      margin-bottom: 25px; padding: 0 10px; font-weight: 500;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .modal-desc strong { color: #fbbf24; }
 
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px;
+    }
+    .stat-box {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px; padding: 12px;
+      text-align: center; transition: 0.3s;
+    }
+    .stat-box:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
+    .stat-box.full-width { grid-column: span 2; }
+    .stat-label { font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 600; }
+    .stat-value { font-size: 14px; color: #ffffff; font-weight: 700; }
+    .stat-value strong { color: #60a5fa; }
+
+    .pass-container { position: relative; width: 100%; margin-bottom: 20px; }
     .pass-input {
-      width: 100%;
-      padding: 12px 20px;
-      border-radius: 50px;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: rgba(255,255,255,0.1);
-      color: white;
-      text-align: center;
-      font-size: 16px;
-      margin-bottom: 20px;
-      outline: none;
+      width: 100%; padding: 14px 45px 14px 20px; border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(0, 0, 0, 0.3); color: white;
+      text-align: center; outline: none; font-size: 16px; font-weight: 600;
+      transition: 0.3s;
+    }
+    .pass-input:focus {
+      border-color: #60a5fa; background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+    }
+    .pass-input::placeholder { color: rgba(255,255,255,0.4); }
+
+    .shake { animation: shake 0.3s ease-in-out; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
     }
 
-    .wm {
-      position: fixed;
-      bottom: 20px;
-      font-size: 11px;
-      color: #94a3b8;
-      text-transform: uppercase;
-      z-index: 5;
+    .btn-close-special {
+      background: linear-gradient(90deg, #2563eb, #4f46e5);
+      box-shadow: 0 8px 20px -5px rgba(37, 99, 235, 0.5);
+      width: 100%; border-radius: 18px; padding: 14px;
+      font-size: 14px; color: white; font-weight: 700;
+      border: none; cursor: pointer; transition: 0.3s;
     }
-    .pass-container {
-  position: relative;
-  width: 100%;
-  margin-bottom: 10px;
-}
+    .btn-close-special:active { transform: scale(0.97); }
+    .btn-cancel { background: none; color: #cbd5e1; font-size: 13px; margin-top: 10px; opacity: 0.8; }
+    .btn-cancel:hover { opacity: 1; color: white; }
 
-.pass-input {
-  width: 100%; 
-  padding: 12px 20px; /* Beri jarak kanan agar teks tidak tertutup mata */
-  border-radius: 50px;
-  border: 1px solid rgba(255,255,255,0.3);
-  background: rgba(255,255,255,0.1);
-  color: white;
-  text-align: center;
-  outline: none;
-}
+    .toggle-eye {
+      position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+      cursor: pointer; width: 22px; height: 22px; display: flex; align-items: center;
+      justify-content: center; color: rgba(255,255,255,0.8); transition: 0.3s;
+    }
+    .toggle-eye svg { width: 100%; height: 100%; fill: currentColor; }
 
-.toggle-eye {
-  position: absolute;
-  right: 10px;
-  top: 35%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: rgba(255,255,255,0.6);
-  font-size: 18px;
-  user-select: none; /* Agar ikon tidak terpilih saat di-klik */
-}
-/* Efek Cahaya Mengalir untuk Judul Modal */
-.glow-text {
-  background: linear-gradient(
-    to right, 
-    #ffffff 20%, 
-    #3b82f6 40%, 
-    #3b82f6 60%, 
-    #ffffff 80%
-  );
-  background-size: 200% auto;
-  color: white;
-  background-clip: text;
-  text-fill-color: transparent;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shine 3s linear infinite;
-  font-weight: 800;
-}
-
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
-}
-
-    
+    .wm { position: fixed; bottom: 15px; font-size: 10px; color: #94a3b8; letter-spacing: 1px; z-index: 5; }
   </style>
 </head>
 
@@ -356,7 +246,7 @@
 
   <div class="theme-toggle" onclick="toggleTheme()">
     <span id="theme-text">Mode Terang</span>
-    <span id="theme-icon">🌗</span>
+    <div id="theme-icon-container"></div>
   </div>
 
   <div id="welcome">
@@ -364,10 +254,7 @@
       <img src="logo-ipm.png" alt="IPM">
       <img src="logo-sekolah.png" alt="SMAM">
     </div>
-    <h1 class="judul" style="line-height: 1.1; letter-spacing: 0.6px;">
-  Welcome <br>IPM SMAM 2 Beji
-</h1>
-
+    <h1 class="judul">Welcome <br>IPM SMAM 2 Beji</h1>
     <p>Website Absensi Online</p>
     <button onclick="togglePassModal(true)">Masuk Sekarang</button>
     <button class="btn-about" onclick="toggleModal(true)">Tentang</button>
@@ -375,142 +262,154 @@
 
   <div id="dashboard" style="display:none;">
     <h2 class="judul">Petugas Absensi</h2>
-    <p>Pilih Kelas Untuk Input</p>
+    <p>Pilih kelas untuk input</p>
     <div class="grid">
-      <button onclick="bukaForm('https://forms.gle/NGUNFUoJSmVWtqp7A')">10.1</button>
-      <button onclick="bukaForm('https://forms.gle/o1oTzmM7y1HwzxEu9')">10.2</button>
-      <button onclick="bukaForm('https://forms.gle/i4B7iGbD2Q5uy2i16')">10.3</button>
-      <button onclick="bukaForm('https://forms.gle/YAUBrF9mhSi1ZB3P7')">10.4</button>
-      <button onclick="bukaForm('https://forms.gle/9dC2bCpvTsRAzRxe6')">10.5</button>
-      <button onclick="bukaForm('https://forms.gle/4J7svoPMEaEpTpAc6')">10.6</button>
-      <button onclick="bukaForm('https://forms.gle/Zxn5GVPTFC8taicNA')">11.1</button>
-      <button onclick="bukaForm('https://forms.gle/DW2sz4uaLJLXquCq6')">11.2</button>
-      <button onclick="bukaForm('https://forms.gle/imc89suf1nT4UUFi8')">11.3</button>
-      <button onclick="bukaForm('https://forms.gle/eHZ81prmQZjo33f86')">11.4</button>
-      <button onclick="bukaForm('https://forms.gle/YwTjusFFyAHrG5j87')">11.5</button>
-      <button onclick="bukaForm('https://forms.gle/HapkfmEsKJMybjdC6')">11.6</button>
-      <button onclick="bukaForm('https://forms.gle/iARfATetVhiRtZ8k8')">12 IPA.1</button>
-      <button onclick="bukaForm('https://forms.gle/yMa3hYKhr4AnKzHV6')">12 IPA.2</button>
-      <button onclick="bukaForm('https://forms.gle/wKzWN1wj3XpFcxdu9')">12 IPS.1</button>
-      <button onclick="bukaForm('https://forms.gle/Q5VF9kUURpJ8GUG77')">12 IPS.2</button>
+      <div class="tingkat-header" style="border-color: #059669;">Kelas 10</div>
+      <button class="btn-10" onclick="bukaForm('https://forms.gle/NGUNFUoJSmVWtqp7A')">10.1</button>
+      <button class="btn-10" onclick="bukaForm('https://forms.gle/o1oTzmM7y1HwzxEu9')">10.2</button>
+      <button class="btn-10" onclick="bukaForm('https://forms.gle/i4B7iGbD2Q5uy2i16')">10.3</button>
+      <button class="btn-10" onclick="bukaForm('https://forms.gle/YAUBrF9mhSi1ZB3P7')">10.4</button>
+      <button class="btn-10" onclick="bukaForm('https://forms.gle/9dC2bCpvTsRAzRxe6')">10.5</button>
+      <button class="btn-10" onclick="bukaForm('https://forms.gle/4J7svoPMEaEpTpAc6')">10.6</button>
+
+      <div class="tingkat-header" style="border-color: #d97706;">Kelas 11</div>
+      <button class="btn-11" onclick="bukaForm('https://forms.gle/Zxn5GVPTFC8taicNA')">11.1</button>
+      <button class="btn-11" onclick="bukaForm('https://forms.gle/DW2sz4uaLJLXquCq6')">11.2</button>
+      <button class="btn-11" onclick="bukaForm('https://forms.gle/imc89suf1nT4UUFi8')">11.3</button>
+      <button class="btn-11" onclick="bukaForm('https://forms.gle/eHZ81prmQZjo33f86')">11.4</button>
+      <button class="btn-11" onclick="bukaForm('https://forms.gle/YwTjusFFyAHrG5j87')">11.5</button>
+      <button class="btn-11" onclick="bukaForm('https://forms.gle/HapkfmEsKJMybjdC6')">11.6</button>
+
+      <div class="tingkat-header" style="border-color: #2563eb;">Kelas 12</div>
+      <button class="btn-12" onclick="bukaForm('https://forms.gle/iARfATetVhiRtZ8k8')">12 IPA.1</button>
+      <button class="btn-12" onclick="bukaForm('https://forms.gle/yMa3hYKhr4AnKzHV6')">12 IPA.2</button>
+      <button class="btn-12" onclick="bukaForm('https://forms.gle/wKzWN1wj3XpFcxdu9')">12 IPS.1</button>
+      <button class="btn-12" onclick="bukaForm('https://forms.gle/Q5VF9kUURpJ8GUG77')">12 IPS.2</button>
     </div>
     <button class="btn-back" onclick="kembali()">Kembali</button>
   </div>
 
   <div id="modalTentang" class="modal">
-  <div class="modal-content">
-    <h3 class="judul glow-text">Tentang Website</h3>
-    <p>
-        Website ini dikembangkan untuk memudahkan IPM dalam mendata pembelajaran ibadah siswa secara digital.
-        <br><br>
-        Dengan sistem ini, data lebih terorganisir dan dapat diakses dengan cepat.
-        <br><br>
-        Project KDI 2026–2027<br>
-        Support By Razuhfgkruay
+    <div class="modal-content">
+      <div class="special-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+      </div>
+      <h3 class="gradient-text">Tentang Website</h3>
+      <p class="modal-desc">
+        Platform digital resmi <strong>IPM</strong> untuk mempermudah pendataan dan monitoring pembelajaran ibadah siswa/siswi<br>SMA Muhammadiyah 2 Depok
       </p>
-        <button onclick="toggleModal(false)" style="background:#64748b;font-size:12px;margin-top:10px;">Tutup</button>
-  </div>
-</div>
-
-    <div id="modalPassword" class="modal">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <h3 class="judul glow-text">Akses Petugas</h3>
-      <p style="text-align:center!important;">Silakan masukkan password.</p>
-      
-  <div class="pass-container">
-      <input type="password" id="passInput" class="pass-input" placeholder="Password Disini...">
-      <span class="toggle-eye" id="toggleEye" onclick="togglePasswordVisibility()">🫣</span>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-label">Project</div>
+          <div class="stat-value">KDI 26-27</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Version</div>
+          <div class="stat-value">v1.0.3</div>
+        </div>
+        <div class="stat-box full-width">
+          <div class="stat-label">Developed by</div>
+          <div class="stat-value"><strong>Razuhfgkruay</strong></div>
+        </div>
+      </div>
+      <button onclick="toggleModal(false)" class="btn-close-special">Tutup</button>
     </div>
-      
-      <div id="errorMsg" style="color: #ff4d4d; font-size: 12px; margin-bottom: 15px; display: none; font-weight: 600;">
-        ❌ Password Salah, Coba Lagi!
+  </div>
+
+  <div id="modalPassword" class="modal">
+    <div class="modal-content">
+      <div class="special-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
       </div>
 
-      <button onclick="cekPassword()">Konfirmasi</button>
-      <button onclick="togglePassModal(false)" style="background:none;border:none;color:#94a3b8;font-size:12px;margin-top:10px;">Batal</button>
+      <h3 class="gradient-text">Akses Petugas</h3>
+      <p class="modal-desc">
+        Area khusus petugas. Masukkan kode akses untuk melanjutkan.
+      </p>
+
+      <div class="pass-container">
+        <input type="password" id="passInput" class="pass-input" placeholder="Kode Akses...">
+        <span class="toggle-eye" id="toggleEye" onclick="togglePasswordVisibility()"></span>
+      </div>
+
+      <div id="errorMsg" style="color: #fca5a5; font-size: 13px; margin-bottom: 20px; display: none; background: rgba(220, 38, 38, 0.2); padding: 10px; border-radius: 12px; border: 1px solid rgba(220, 38, 38, 0.3);">
+        ⚠️ Password salah, coba lagi.
+      </div>
+
+      <button onclick="cekPassword()" class="btn-close-special">Buka Akses</button>
+      <button class="btn-cancel" onclick="togglePassModal(false)">Batalkan</button>
     </div>
   </div>
 
-
-  <div class="wm">Support by Razuhfgkruay</div>
+  <div class="wm">SUPPORT BY RAZUHFGKRUAY</div>
 
   <script>
-        function togglePassModal(show) {
+    const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2a1 1 0 100-2H2a1 1 0 100 2zm18 0h2a1 1 0 100-2h-2a1 1 0 100 2zM11 2v2a1 1 0 102 0V2a1 1 0 10-2 0zm0 18v2a1 1 0 102 0v-2a1 1 0 10-2 0zM5.99 4.58a1 1 0 111.41 1.41L6.05 7.34a1 1 0 01-1.41-1.41l1.35-1.35zm12.02 12.02a1 1 0 111.41 1.41l-1.35 1.35a1 1 0 11-1.41-1.41l1.35 1.35zM5.99 19.42a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35zm12.02-12.02a1 1 0 101.41-1.41l-1.35-1.35a1 1 0 10-1.41 1.41l1.35 1.35z"/></svg>`;
+    const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>`;
+    const eyeIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>`;
+    const eyeOffIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.39 2.7-3.13 3.44-5.09-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7 l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>`;
+
+    document.getElementById("theme-icon-container").innerHTML = sunIcon;
+    document.getElementById("toggleEye").innerHTML = eyeOffIcon;
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      const text = document.getElementById("theme-text");
+      const iconWrap = document.getElementById("theme-icon-container");
+      iconWrap.classList.add("rotate-anim");
+      setTimeout(() => {
+        const isDark = root.getAttribute("data-theme") === "dark";
+        root.setAttribute("data-theme", isDark ? "light" : "dark");
+        text.innerText = isDark ? "Mode Terang" : "Mode Gelap";
+        iconWrap.innerHTML = isDark ? sunIcon : moonIcon;
+        iconWrap.classList.remove("rotate-anim");
+      }, 300);
+    }
+
+    function togglePasswordVisibility() {
+      const input = document.getElementById("passInput");
+      const btn = document.getElementById("toggleEye");
+      const isPass = input.type === "password";
+      input.type = isPass ? "text" : "password";
+      btn.innerHTML = isPass ? eyeIcon : eyeOffIcon;
+    }
+
+    function togglePassModal(show) {
       document.getElementById("modalPassword").style.display = show ? "flex" : "none";
-      if (show) {
-        document.getElementById("passInput").focus();
-        // Sembunyikan pesan salah setiap kali modal dibuka ulang
+      if(show) {
+        document.getElementById("passInput").value = "";
         document.getElementById("errorMsg").style.display = "none";
+        document.getElementById("passInput").focus();
       }
     }
 
     function cekPassword() {
-      const pass = document.getElementById("passInput").value;
-      const errorMsg = document.getElementById("errorMsg");
-
-      if (pass === "kkkk") {
-        errorMsg.style.display = "none"; // Sembunyikan pesan jika benar
+      const input = document.getElementById("passInput");
+      const val = input.value;
+      if(val === "kkkk") {
         togglePassModal(false);
         document.getElementById("welcome").style.display = "none";
         document.getElementById("dashboard").style.display = "flex";
-        document.getElementById("passInput").value = "";
       } else {
-        // Tampilkan tulisan "Password Salah" tanpa alert
-        errorMsg.style.display = "block";
-        // Tambahkan sedikit getaran agar user sadar ada kesalahan
-        document.getElementById("passInput").style.borderColor = "#ff4d4d";
+        document.getElementById("errorMsg").style.display = "block";
+        input.value = ""; 
+        input.focus();    
+        
+ 
+        input.classList.add("shake");
         setTimeout(() => {
-          document.getElementById("passInput").style.borderColor = "rgba(255,255,255,0.3)";
-        }, 500);
+          input.classList.remove("shake");
+        }, 300);
       }
     }
-    
-    function togglePasswordVisibility() {
-  const passInput = document.getElementById("passInput");
-  const toggleEye = document.getElementById("toggleEye");
-  
-  if (passInput.type === "password") {
-    passInput.type = "text";
-    toggleEye.innerText = "😳"; // Berubah jadi monyet tutup mata
-  } else {
-    passInput.type = "password";
-    toggleEye.innerText = "🫣"; // Berubah jadi mata terbuka
-  }
-}
-
 
     function kembali() {
       document.getElementById("welcome").style.display = "flex";
       document.getElementById("dashboard").style.display = "none";
     }
 
-    function bukaForm(link) {
-      window.location.href = link;
-    }
-
-    function toggleTheme() {
-      const root = document.documentElement;
-      const text = document.getElementById("theme-text");
-      const icon = document.getElementById("theme-icon");
-
-      icon.classList.add("rotate-anim");
-      setTimeout(() => icon.classList.remove("rotate-anim"), 600);
-
-      if (root.getAttribute("data-theme") === "dark") {
-        root.setAttribute("data-theme", "light");
-        text.innerText = "Mode Terang";
-      } else {
-        root.setAttribute("data-theme", "dark");
-        text.innerText = "Mode Gelap";
-      }
-    }
-
-    function toggleModal(show) {
-      document.getElementById("modalTentang").style.display = show ? "flex" : "none";
-    }
+    function bukaForm(link) { window.location.href = link; }
+    function toggleModal(show) { document.getElementById("modalTentang").style.display = show ? "flex" : "none"; }
   </script>
-
 </body>
-        </html>
-  
-
+</html>
