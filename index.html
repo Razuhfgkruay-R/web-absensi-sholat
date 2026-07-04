@@ -9,23 +9,53 @@
 
   <style>
     :root {
-      --bg-body: linear-gradient(135deg, #fdfcf0 0%, #e2f3e5 100%);
-      --bg-card: rgba(255, 255, 255, 0.4);
+      --bg-body: linear-gradient(135deg, #eef2f3 0%, #e0eafc 100%);
       --text-judul: #1e3a8a;
-      --text-p: #64748b;
+      --text-p: #475569;
       --btn-grad: linear-gradient(90deg, #2563eb, #3b82f6);
-      --border-card: rgba(255, 255, 255, 0.5);
-      --blob-opacity: 0.5;
+      
+      /* Variabel Liquid Glass Mode Terang */
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.5);
+      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+      --glass-inner-glow: inset 0 0 20px rgba(255, 255, 255, 0.4);
+      --blob-opacity: 0.6;
+    }
+
+    /* --- FIX TAMPILAN MODAL GELAP --- */
+    .modal-content {
+      background: rgba(255, 255, 255, 0.9) !important; 
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    [data-theme="dark"] .modal-content {
+      background: rgba(30, 41, 59, 0.95) !important; 
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* Memperjelas kolom input agar tidak menyatu dengan background */
+    .pass-input, .search-input {
+      background: #f1f5f9 !important;
+      border: 1px solid #cbd5e1 !important;
+    }
+    
+    [data-theme="dark"] .pass-input, [data-theme="dark"] .search-input {
+      background: #0f172a !important;
+      border: 1px solid #334155 !important;
     }
 
     [data-theme="dark"] {
       --bg-body: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      --bg-card: rgba(30, 41, 59, 0.7);
-      --text-judul: #f1f5f9;
-      --text-p: #94a3b8;
+      --text-judul: #f8fafc;
+      --text-p: #cbd5e1; 
       --btn-grad: linear-gradient(90deg, #3b82f6, #60a5fa);
-      --border-card: rgba(255, 255, 255, 0.1);
-      --blob-opacity: 0.2;
+      
+      /* Variabel Liquid Glass Mode Gelap */
+      --glass-bg: rgba(15, 23, 42, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+      --glass-inner-glow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+      --blob-opacity: 0.25;
     }
 
     * { box-sizing: border-box; }
@@ -43,33 +73,37 @@
       position: relative;
     }
 
+    /* Blob Animasi */
     .blob-wrapper {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: -1; overflow: hidden; filter: blur(70px);
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1; overflow: hidden; filter: blur(80px);
     }
     .blob {
-      position: absolute; border-radius: 50%;
-      opacity: var(--blob-opacity);
+      position: absolute; border-radius: 50%; opacity: var(--blob-opacity);
       animation: move 20s infinite alternate ease-in-out;
     }
-    .blob-blue { width: 400px; height: 400px; background: #3b82f6; top: -10%; left: -10%; }
-    .blob-yellow { width: 450px; height: 450px; background: #fbbf24; bottom: -5%; right: -5%; animation-duration: 25s; }
-    .blob-cyan { width: 300px; height: 300px; background: #22d3ee; top: 40%; left: 30%; animation-duration: 18s; }
+    .blob-blue { width: 45vw; height: 45vw; max-width: 500px; max-height: 500px; background: #3b82f6; top: -10%; left: -10%; }
+    .blob-yellow { width: 50vw; height: 50vw; max-width: 550px; max-height: 550px; background: #fbbf24; bottom: -5%; right: -5%; animation-duration: 25s; }
+    .blob-cyan { width: 35vw; height: 35vw; max-width: 400px; max-height: 400px; background: #22d3ee; top: 40%; left: 30%; animation-duration: 18s; }
 
     @keyframes move {
       0% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30vw, 20vh) scale(1.1); }
+      33% { transform: translate(20vw, 15vh) scale(1.1); }
       100% { transform: translate(10vw, -5vh) scale(1); }
     }
 
+    /* Theme Toggle */
     .theme-toggle {
       position: fixed; top: 20px; right: 20px; cursor: pointer; z-index: 100;
-      background: var(--bg-card); padding: 8px 15px; border-radius: 25px;
-      border: 1px solid var(--border-card); backdrop-filter: blur(10px);
-      display: flex; align-items: center; gap: 10px; font-size: 12px;
-      font-weight: 600; color: var(--text-judul); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      background: var(--glass-bg); padding: 10px 18px; border-radius: 30px;
+      border: 1px solid var(--glass-border); 
+      backdrop-filter: blur(15px) saturate(120%);
+      -webkit-backdrop-filter: blur(15px) saturate(120%);
+      display: flex; align-items: center; gap: 10px; font-size: 13px;
+      font-weight: 600; color: var(--text-judul); 
+      box-shadow: var(--glass-shadow); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    .theme-toggle:hover { transform: scale(1.05); }
     #theme-icon-container {
       width: 20px; height: 20px; display: flex; align-items: center;
       transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
@@ -77,162 +111,229 @@
     #theme-icon-container svg { width: 100%; height: 100%; fill: currentColor; }
     .rotate-anim { transform: rotate(360deg); opacity: 0; }
 
-    #welcome, #dashboard {
-      background: var(--bg-card); backdrop-filter: blur(20px);
-      border: 1px solid var(--border-card); border-radius: 30px;
-      padding: 30px 20px; width: 92%; max-width: 400px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center;
-      animation: fadeIn 0.8s ease-out; max-height: 85vh;
+    /* Card Utama */
+    #welcome, #dashboard, #attendance-view, .modal-content {
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px) saturate(150%);
+      -webkit-backdrop-filter: blur(25px) saturate(150%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inner-glow);
+      border-radius: 32px; padding: 40px 30px; 
+      width: 92%; max-width: 460px; text-align: center;
       display: flex; flex-direction: column; z-index: 10;
     }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    #welcome, #dashboard, #attendance-view { animation: fadeIn 0.6s ease-out; max-height: 85vh; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-    .logo { display: flex; justify-content: center; margin-bottom: 20px; }
-    .logo img { width: 140px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
+    .logo { display: flex; justify-content: center; margin-bottom: 25px; gap: 10px;}
+    .logo img { width: 120px; height: auto; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
+    .judul { font-weight: 800; font-size: 28px; color: var(--text-judul); margin: 0; line-height: 1.3; }
+    p { font-size: 14px; color: var(--text-p); margin-bottom: 25px; }
 
-    .judul { font-weight: 800; font-size: 26px; color: var(--text-judul); margin: 0; }
-    p { font-size: 13px; color: var(--text-p); margin-bottom: 20px; }
-
+    /* Grid Kelas */
     .grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-      overflow-y: auto; padding: 5px; margin-bottom: 15px; scrollbar-width: none;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; 
+      overflow-y: auto; padding: 5px; margin-bottom: 20px; scrollbar-width: none;
     }
     .grid::-webkit-scrollbar { display: none; }
-
     .tingkat-header {
-      grid-column: span 2; text-align: left; font-size: 12px; font-weight: 800;
-      margin-top: 12px; padding-left: 10px; color: var(--text-judul);
+      grid-column: span 2; text-align: left; font-size: 13px; font-weight: 800;
+      margin-top: 15px; padding-left: 12px; color: var(--text-judul);
       border-left: 4px solid #3b82f6; text-transform: uppercase; letter-spacing: 1px;
     }
-
     .grid button {
-      padding: 12px 5px; font-size: 13px; font-weight: 700; border-radius: 12px;
-      background: white; transition: all 0.2s; border: 1.5px solid;
+      padding: 15px 5px; font-size: 14px; font-weight: 700; border-radius: 16px;
+      background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s; 
+      border: 1.5px solid; cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
+    .grid button:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); }
+    .grid button:active { transform: scale(0.96); }
     .btn-10 { color: #059669; border-color: #059669; }
     .btn-11 { color: #d97706; border-color: #d97706; }
     .btn-12 { color: #2563eb; border-color: #2563eb; }
     [data-theme="dark"] .grid button { background: rgba(255,255,255,0.05); }
 
-    button {
-      width: 100%; padding: 14px; font-size: 15px; font-weight: 600;
+    /* UI Premium Segmented Control (Pilihan Ibadah Atas) */
+    .worship-toggle-container {
+      display: flex; background: rgba(0, 0, 0, 0.06); border-radius: 50px;
+      padding: 4px; margin-bottom: 18px; border: 1px solid rgba(128, 128, 128, 0.15);
+    }
+    [data-theme="dark"] .worship-toggle-container { background: rgba(255, 255, 255, 0.05); }
+    .worship-btn {
+      flex: 1; border: none; background: none; padding: 12px; font-family: inherit;
+      font-weight: 700; font-size: 13px; color: var(--text-p); cursor: pointer;
+      border-radius: 50px; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .worship-btn.active {
+      background: var(--btn-grad); color: white;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Kolom Pencarian & List Siswa */
+    .search-container { position: relative; margin-bottom: 18px; width: 100%; }
+    .search-input {
+      width: 100%; padding: 14px 20px; border-radius: 50px;
+      font-size: 14px; outline: none; font-family: inherit; color: var(--text-judul);
+      transition: 0.3s; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .search-input:focus { border-color: #3b82f6 !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+
+    .student-list {
+      display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
+      max-height: 38vh; padding-right: 5px; margin-bottom: 20px; text-align: left;
+      scrollbar-width: thin;
+    }
+    .student-list::-webkit-scrollbar { width: 4px; }
+    .student-list::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 10px; }
+
+    .student-card {
+      background: rgba(255,255,255,0.4); border: 1px solid rgba(128,128,128,0.15);
+      padding: 14px 18px; border-radius: 18px; display: flex; justify-content: space-between;
+      align-items: center; cursor: pointer; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    [data-theme="dark"] .student-card { background: rgba(255,255,255,0.03); }
+    .student-card:hover { transform: translateX(5px); background: rgba(255,255,255,0.6); }
+    [data-theme="dark"] .student-card:hover { background: rgba(255,255,255,0.07); }
+    
+    .student-info { display: flex; align-items: center; gap: 12px; }
+    .student-absen {
+      font-size: 12px; font-weight: 700; background: rgba(128,128,128,0.2);
+      color: var(--text-judul); width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .student-name { font-size: 14px; font-weight: 600; color: var(--text-judul); }
+    
+    /* Badge Status */
+    .status-badge { font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 30px; background: rgba(100,116,139,0.15); color: #64748b; transition: 0.2s; }
+    .status-badge.sholat { background: #d1fae5; color: #065f46; }
+    .status-badge.sakit { background: #fef3c7; color: #92400e; }
+    .status-badge.izin { background: #dbeafe; color: #1e40af; }
+    .status-badge.alfa { background: #fee2e2; color: #991b1b; }
+
+    /* Tombol Utama */
+    .btn-main {
+      width: 100%; padding: 15px; font-size: 16px; font-weight: 600;
       border: none; border-radius: 50px; background: var(--btn-grad);
-      color: white; cursor: pointer; transition: 0.3s;
+      color: white; cursor: pointer; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
     }
-    button:active { transform: scale(0.96); }
+    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); }
+    .btn-main:active { transform: scale(0.96); }
+    
+    .btn-about { 
+      background: rgba(255, 255, 255, 0.1); border: 2px solid #3b82f6; 
+      color: var(--text-judul); margin-top: 15px; box-shadow: none; backdrop-filter: blur(5px);
+    }
+    .btn-about:hover { background: #3b82f6; color: white; }
+    .btn-back { background: #64748b; font-size: 14px; margin-top: auto; box-shadow: 0 8px 20px rgba(100, 116, 139, 0.3); color: white; }
+    .btn-back:hover { background: #475569; }
 
-    .btn-about { background: transparent; border: 2px solid #3b82f6; color: var(--text-judul); margin-top: 10px; }
-    .btn-back { background: #64748b; font-size: 12px; padding: 10px; margin-top: auto; }
-
+    /* Modal */
     .modal {
-      display: none; position: fixed; inset: 0; 
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(8px); z-index: 200; 
-      justify-content: center; align-items: center;
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      z-index: 200; justify-content: center; align-items: center; padding: 20px;
     }
-
     .modal-content {
-      background: rgba(18, 20, 30, 0.95);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      padding: 40px 25px;
-      border-radius: 30px;
-      width: 90%; max-width: 360px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 0 40px rgba(59, 130, 246, 0.2); 
-      text-align: center;
-      position: relative; overflow: hidden;
+      position: relative; 
+      overflow: hidden; /* Mengunci total agar lingkaran glow background tidak meluber ke bawah */
     }
 
     .modal-content::before {
       content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 60%);
+      background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 60%);
       pointer-events: none; z-index: 0;
     }
     .modal-content > * { position: relative; z-index: 1; }
 
     .special-icon {
-      width: 70px; height: 70px;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      border-radius: 24px;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 20px; color: white;
-      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+      width: 75px; height: 75px; background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 24px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; color: white; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
       animation: floatIcon 3s ease-in-out infinite;
     }
-    @keyframes floatIcon {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-    }
+    @keyframes floatIcon { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
 
     .gradient-text {
       font-size: 24px; font-weight: 800; margin: 0 0 10px 0;
-      background: linear-gradient(to right, #ffffff, #93c5fd);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px; color: white;
+      background: linear-gradient(to right, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px;
     }
-    .modal-desc {
-      color: #e2e8f0; font-size: 14px; line-height: 1.6;
-      margin-bottom: 25px; padding: 0 10px; font-weight: 500;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    .modal-desc strong { color: #fbbf24; }
+    [data-theme="dark"] .gradient-text { background: linear-gradient(to right, #ffffff, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-    .stats-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px;
+    .modal-desc { color: var(--text-p); font-size: 15px; line-height: 1.6; margin-bottom: 25px; padding: 0 10px; font-weight: 500; }
+    .modal-desc strong { color: #d97706; }
+    [data-theme="dark"] .modal-desc strong { color: #fbbf24; }
+
+    /* Grid Pilihan Status Absensi */
+    .status-selection-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+    .btn-status-select {
+      padding: 15px; font-weight: 700; border-radius: 18px; border: 2px solid transparent; cursor: pointer; font-family: inherit; font-size: 14px; transition: 0.2s;
     }
+    .btn-status-select:active { transform: scale(0.95); }
+    .btn-sel-sholat { background: #d1fae5; color: #065f46; } .btn-sel-sholat:hover { border-color: #10b981; }
+    .btn-sel-sakit { background: #fef3c7; color: #92400e; }  .btn-sel-sakit:hover { border-color: #f59e0b; }
+    .btn-sel-izin { background: #dbeafe; color: #1e40af; }   .btn-sel-izin:hover { border-color: #3b82f6; }
+    .btn-sel-alfa { background: #fee2e2; color: #991b1b; }   .btn-sel-alfa:hover { border-color: #ef4444; }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
     .stat-box {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 16px; padding: 12px;
-      text-align: center; transition: 0.3s;
+      background: rgba(128, 128, 128, 0.1); border: 1px solid rgba(128, 128, 128, 0.2);
+      border-radius: 18px; padding: 15px; text-align: center; transition: 0.3s;
     }
-    .stat-box:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
+    .stat-box:hover { background: rgba(128, 128, 128, 0.15); transform: translateY(-2px); }
     .stat-box.full-width { grid-column: span 2; }
-    .stat-label { font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 600; }
-    .stat-value { font-size: 14px; color: #ffffff; font-weight: 700; }
-    .stat-value strong { color: #60a5fa; }
+    .stat-label { font-size: 12px; color: var(--text-p); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 600; }
+    .stat-value { font-size: 15px; color: var(--text-judul); font-weight: 700; }
+    .stat-value strong { color: #3b82f6; }
 
     .pass-container { position: relative; width: 100%; margin-bottom: 20px; }
     .pass-input {
-      width: 100%; padding: 14px 45px 14px 20px; border-radius: 50px;
-      border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(0, 0, 0, 0.3); color: white;
-      text-align: center; outline: none; font-size: 16px; font-weight: 600;
-      transition: 0.3s;
+      width: 100%; padding: 16px 50px 16px 20px; border-radius: 50px;
+      color: var(--text-judul); text-align: center; outline: none; font-size: 16px; font-weight: 600;
+      transition: 0.3s; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
     }
-    .pass-input:focus {
-      border-color: #60a5fa; background: rgba(0, 0, 0, 0.5);
-      box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
-    }
-    .pass-input::placeholder { color: rgba(255,255,255,0.4); }
+    .pass-input:focus { border-color: #3b82f6 !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+    .pass-input::placeholder { color: var(--text-p); opacity: 0.7; }
 
     .shake { animation: shake 0.3s ease-in-out; }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
-    }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
 
     .btn-close-special {
-      background: linear-gradient(90deg, #2563eb, #4f46e5);
-      box-shadow: 0 8px 20px -5px rgba(37, 99, 235, 0.5);
-      width: 100%; border-radius: 18px; padding: 14px;
-      font-size: 14px; color: white; font-weight: 700;
-      border: none; cursor: pointer; transition: 0.3s;
+      background: linear-gradient(90deg, #2563eb, #4f46e5); width: 100%; border-radius: 50px; padding: 15px;
+      font-size: 15px; color: white; font-weight: 700; border: none; cursor: pointer; transition: 0.3s;
     }
-    .btn-close-special:active { transform: scale(0.97); }
-    .btn-cancel { background: none; color: #cbd5e1; font-size: 13px; margin-top: 10px; opacity: 0.8; }
-    .btn-cancel:hover { opacity: 1; color: white; }
+    .btn-close-special:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+    
+    .btn-cancel { background: none; border: none; color: var(--text-p); font-size: 14px; margin-top: 12px; cursor: pointer; font-weight: 600;}
+    .btn-cancel:hover { color: var(--text-judul); }
 
     .toggle-eye {
-      position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-      cursor: pointer; width: 22px; height: 22px; display: flex; align-items: center;
-      justify-content: center; color: rgba(255,255,255,0.8); transition: 0.3s;
+      position: absolute; right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;
+      width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; color: var(--text-p); transition: 0.3s;
     }
     .toggle-eye svg { width: 100%; height: 100%; fill: currentColor; }
 
-    .wm { position: fixed; bottom: 15px; font-size: 10px; color: #94a3b8; letter-spacing: 1px; z-index: 5; }
+    /* Animasi Spinner Loading */
+    .spinner {
+      display: inline-block; width: 18px; height: 18px;
+      border: 3px solid rgba(255,255,255,0.3); border-radius: 50%;
+      border-top-color: currentColor; animation: spin 0.8s ease-in-out infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .wm { position: fixed; bottom: 15px; font-size: 11px; font-weight: 600; color: var(--text-p); letter-spacing: 1px; z-index: 5; opacity: 0.8; }
+
+    @media (max-width: 480px) {
+      #welcome, #dashboard, #attendance-view, .modal-content { padding: 30px 20px; border-radius: 28px; }
+      .judul { font-size: 24px; }
+      .logo img { width: 100px; }
+      .grid { gap: 12px; }
+      .btn-main, .grid button { padding: 13px; font-size: 14px; }
+      .theme-toggle { padding: 8px 15px; font-size: 12px; }
+    }
+    
   </style>
 </head>
 
@@ -256,8 +357,8 @@
     </div>
     <h1 class="judul">Welcome <br>IPM SMAM 2 Beji</h1>
     <p>Website Absensi Online</p>
-    <button onclick="togglePassModal(true)">Masuk Sekarang</button>
-    <button class="btn-about" onclick="toggleModal(true)">Tentang</button>
+    <button class="btn-main" onclick="togglePassModal(true)">Masuk Sekarang</button>
+    <button class="btn-main btn-about" onclick="toggleModal(true)">Tentang</button>
   </div>
 
   <div id="dashboard" style="display:none;">
@@ -265,28 +366,50 @@
     <p>Pilih kelas untuk input</p>
     <div class="grid">
       <div class="tingkat-header" style="border-color: #059669;">Kelas 10</div>
-      <button class="btn-10" onclick="bukaForm('https://forms.gle/NGUNFUoJSmVWtqp7A')">10.1</button>
-      <button class="btn-10" onclick="bukaForm('https://forms.gle/o1oTzmM7y1HwzxEu9')">10.2</button>
-      <button class="btn-10" onclick="bukaForm('https://forms.gle/i4B7iGbD2Q5uy2i16')">10.3</button>
-      <button class="btn-10" onclick="bukaForm('https://forms.gle/YAUBrF9mhSi1ZB3P7')">10.4</button>
-      <button class="btn-10" onclick="bukaForm('https://forms.gle/9dC2bCpvTsRAzRxe6')">10.5</button>
-      <button class="btn-10" onclick="bukaForm('https://forms.gle/4J7svoPMEaEpTpAc6')">10.6</button>
+      <button class="btn-10" onclick="pilihKelas('10.1')">10.1</button>
+      <button class="btn-10" onclick="pilihKelas('10.2')">10.2</button>
+      <button class="btn-10" onclick="pilihKelas('10.3')">10.3</button>
+      <button class="btn-10" onclick="pilihKelas('10.4')">10.4</button>
+      <button class="btn-10" onclick="pilihKelas('10.5')">10.5</button>
+      <button class="btn-10" onclick="pilihKelas('10.6')">10.6</button>
 
       <div class="tingkat-header" style="border-color: #d97706;">Kelas 11</div>
-      <button class="btn-11" onclick="bukaForm('https://forms.gle/Zxn5GVPTFC8taicNA')">11.1</button>
-      <button class="btn-11" onclick="bukaForm('https://forms.gle/DW2sz4uaLJLXquCq6')">11.2</button>
-      <button class="btn-11" onclick="bukaForm('https://forms.gle/imc89suf1nT4UUFi8')">11.3</button>
-      <button class="btn-11" onclick="bukaForm('https://forms.gle/eHZ81prmQZjo33f86')">11.4</button>
-      <button class="btn-11" onclick="bukaForm('https://forms.gle/YwTjusFFyAHrG5j87')">11.5</button>
-      <button class="btn-11" onclick="bukaForm('https://forms.gle/HapkfmEsKJMybjdC6')">11.6</button>
+      <button class="btn-11" onclick="pilihKelas('11.1')">11.1</button>
+      <button class="btn-11" onclick="pilihKelas('11.2')">11.2</button>
+      <button class="btn-11" onclick="pilihKelas('11.3')">11.3</button>
+      <button class="btn-11" onclick="pilihKelas('11.4')">11.4</button>
+      <button class="btn-11" onclick="pilihKelas('11.5')">11.5</button>
+      <button class="btn-11" onclick="pilihKelas('11.6')">11.6</button>
 
       <div class="tingkat-header" style="border-color: #2563eb;">Kelas 12</div>
-      <button class="btn-12" onclick="bukaForm('https://forms.gle/iARfATetVhiRtZ8k8')">12 IPA.1</button>
-      <button class="btn-12" onclick="bukaForm('https://forms.gle/yMa3hYKhr4AnKzHV6')">12 IPA.2</button>
-      <button class="btn-12" onclick="bukaForm('https://forms.gle/wKzWN1wj3XpFcxdu9')">12 IPS.1</button>
-      <button class="btn-12" onclick="bukaForm('https://forms.gle/Q5VF9kUURpJ8GUG77')">12 IPS.2</button>
+      <button class="btn-12" onclick="pilihKelas('12.1')">12.1</button>
+      <button class="btn-12" onclick="pilihKelas('12.2')">12.2</button>
+      <button class="btn-12" onclick="pilihKelas('12.3')">12.3</button>
+      <button class="btn-12" onclick="pilihKelas('12.4')">12.4</button>
+      <button class="btn-12" onclick="pilihKelas('12.5')">12.5</button>
+      <button class="btn-12" onclick="pilihKelas('12.6')">12.6</button>
     </div>
-    <button class="btn-back" onclick="kembali()">Kembali</button>
+    <button class="btn-main btn-back" onclick="kembali()">Kembali</button>
+  </div>
+
+  <div id="attendance-view" style="display:none;">
+    <h2 class="judul" id="active-class-title">Kelas --</h2>
+    <p style="margin-bottom: 12px;">Pilih sesi ibadah lalu isi keterangan siswa</p>
+    
+    <div class="worship-toggle-container">
+      <button class="worship-btn active" id="worshipDhuha" onclick="gantiSesiIbadah('Dhuha')">Sholat Dhuha</button>
+      <button class="worship-btn" id="worshipDzuhur" onclick="gantiSesiIbadah('Dzuhur')">Sholat Dzuhur</button>
+    </div>
+
+    <div class="search-container">
+      <input type="text" id="searchBar" class="search-input" placeholder="Cari No. Absen / Nama..." oninput="filterSiswa()">
+    </div>
+
+    <div class="student-list" id="studentListContainer">
+    </div>
+
+    <button class="btn-main" id="btnKirimData" onclick="kirimKeSpreadsheet()">Kirim Absensi</button>
+    <button class="btn-main btn-back" onclick="kembaliKeDashboard()" style="margin-top:10px; box-shadow:none;">Kembali Pilih Kelas</button>
   </div>
 
   <div id="modalTentang" class="modal">
@@ -321,23 +444,54 @@
       <div class="special-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
       </div>
-
       <h3 class="gradient-text">Akses Petugas</h3>
-      <p class="modal-desc">
-        Area khusus petugas. Masukkan kode akses untuk melanjutkan.
-      </p>
-
+      <p class="modal-desc">Area khusus petugas. Masukkan kode akses untuk melanjutkan.</p>
       <div class="pass-container">
         <input type="password" id="passInput" class="pass-input" placeholder="Kode Akses...">
         <span class="toggle-eye" id="toggleEye" onclick="togglePasswordVisibility()"></span>
       </div>
-
-      <div id="errorMsg" style="color: #fca5a5; font-size: 13px; margin-bottom: 20px; display: none; background: rgba(220, 38, 38, 0.2); padding: 10px; border-radius: 12px; border: 1px solid rgba(220, 38, 38, 0.3);">
+      <div id="errorMsg" style="color: #ef4444; font-size: 13px; font-weight: 600; margin-bottom: 20px; display: none; background: rgba(239, 68, 68, 0.15); padding: 12px; border-radius: 12px; border: 1px solid rgba(239, 68, 68, 0.3);">
         ⚠️ Password salah, coba lagi.
       </div>
-
-      <button onclick="cekPassword()" class="btn-close-special">Buka Akses</button>
+      <button id="btnBukaAkses" onclick="cekPassword()" class="btn-close-special" disabled>Buka Akses</button>
       <button class="btn-cancel" onclick="togglePassModal(false)">Batalkan</button>
+    </div>
+  </div>
+
+  <div id="modalStatus" class="modal">
+    <div class="modal-content">
+      <h3 class="gradient-text" id="modalStudentName">Nama Siswa</h3>
+      <p class="modal-desc" id="modalStudentAbsen">Absen --</p>
+      <div class="status-selection-grid">
+        <button class="btn-status-select btn-sel-sholat" onclick="setSiswaStatus('Sholat')">🟢 Sholat</button>
+        <button class="btn-status-select btn-sel-sakit" onclick="setSiswaStatus('Sakit')">🟡 Sakit</button>
+        <button class="btn-status-select btn-sel-izin" onclick="setSiswaStatus('Izin')">🔵 Izin</button>
+        <button class="btn-status-select btn-sel-alfa" onclick="setSiswaStatus('Alfa')">🔴 Alfa</button>
+      </div>
+      <button class="btn-cancel" onclick="toggleStatusModal(false)">Batal</button>
+    </div>
+  </div>
+
+  <div id="modalSukses" class="modal">
+    <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(16, 185, 129, 0.3);">
+      <div class="special-icon" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3); animation:none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h3 class="gradient-text" style="color: #10b981; background:none; -webkit-text-fill-color:initial;">Berhasil Dikirim!</h3>
+      <p class="modal-desc" id="suksesDetailPesan">Data absensi berhasil disimpan.</p>
+      <button class="btn-close-special" style="background: linear-gradient(90deg, #10b981, #059669); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);" onclick="tutupModalSukses()">Selesai</button>
+    </div>
+  </div>
+  
+  <div id="modalKonfirmasi" class="modal">
+    <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(239, 68, 68, 0.3);">
+      <div class="special-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3); animation: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+      </div>
+      <h3 class="gradient-text" style="background: linear-gradient(to right, #ef4444, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Yakin Ingin Keluar?</h3>
+      <p class="modal-desc">Data input absensi di kelas ini yang <strong>belum dikirim</strong> ke Spreadsheet akan hilang secara permanen.</p>
+      <button class="btn-close-special" style="background: linear-gradient(90deg, #ef4444, #dc2626); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);" onclick="eksekusiKeluar()">Ya, Keluar</button>
+      <button class="btn-cancel" onclick="toggleKonfirmasiModal(false)">Batal, Lanjutkan Absen</button>
     </div>
   </div>
 
@@ -349,17 +503,54 @@
     const eyeIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>`;
     const eyeOffIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.39 2.7-3.13 3.44-5.09-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7 l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>`;
 
-    document.getElementById("theme-icon-container").innerHTML = sunIcon;
-    document.getElementById("toggleEye").innerHTML = eyeOffIcon;
+    // LINK API GOOGLE APPS SCRIPT
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYjwwiUB9y-ju_U5cIxPRnWQ_TQ--rHxsjs-LD3KMU9FKlrcgBinPnGlWaV3_xdG7w1g/exec";
+
+    let currentClassStudents = [];
+    let selectedStudentId = null;
+    let sesiTerpilih = "Dhuha"; 
+    let namaKelasGlobal = "";
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.getElementById("theme-text").innerText = savedTheme === 'dark' ? "Mode Gelap" : "Mode Terang";
+      document.getElementById("theme-icon-container").innerHTML = savedTheme === 'dark' ? moonIcon : sunIcon;
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      document.getElementById("toggleEye").innerHTML = eyeOffIcon;
+      
+      const passInput = document.getElementById("passInput");
+      const btnBukaAkses = document.getElementById("btnBukaAkses");
+      
+      passInput.addEventListener('input', function() {
+        btnBukaAkses.disabled = this.value.trim() === '';
+      });
+
+      // Fitur tutup modal saat klik area luar (Click Outside to Close)
+      document.querySelectorAll('.modal').forEach(m => {
+        m.addEventListener('click', function(e) {
+          if(e.target === this) this.style.display = 'none';
+        });
+      });
+    });
 
     function toggleTheme() {
       const root = document.documentElement;
       const text = document.getElementById("theme-text");
       const iconWrap = document.getElementById("theme-icon-container");
+      
       iconWrap.classList.add("rotate-anim");
+      
       setTimeout(() => {
         const isDark = root.getAttribute("data-theme") === "dark";
-        root.setAttribute("data-theme", isDark ? "light" : "dark");
+        const newTheme = isDark ? "light" : "dark";
+        
+        root.setAttribute("data-theme", newTheme);
+        localStorage.setItem('theme', newTheme);
+        
         text.innerText = isDark ? "Mode Terang" : "Mode Gelap";
         iconWrap.innerHTML = isDark ? sunIcon : moonIcon;
         iconWrap.classList.remove("rotate-anim");
@@ -378,28 +569,25 @@
       document.getElementById("modalPassword").style.display = show ? "flex" : "none";
       if(show) {
         document.getElementById("passInput").value = "";
+        document.getElementById("btnBukaAkses").disabled = true;
         document.getElementById("errorMsg").style.display = "none";
-        document.getElementById("passInput").focus();
+        setTimeout(() => document.getElementById("passInput").focus(), 100);
       }
     }
 
     function cekPassword() {
       const input = document.getElementById("passInput");
-      const val = input.value;
-      if(val === "kkkk") {
+      if(input.value === "kkkk") {
         togglePassModal(false);
         document.getElementById("welcome").style.display = "none";
         document.getElementById("dashboard").style.display = "flex";
       } else {
         document.getElementById("errorMsg").style.display = "block";
         input.value = ""; 
+        document.getElementById("btnBukaAkses").disabled = true;
         input.focus();    
-        
- 
         input.classList.add("shake");
-        setTimeout(() => {
-          input.classList.remove("shake");
-        }, 300);
+        setTimeout(() => input.classList.remove("shake"), 300);
       }
     }
 
@@ -408,8 +596,170 @@
       document.getElementById("dashboard").style.display = "none";
     }
 
-    function bukaForm(link) { window.location.href = link; }
-    function toggleModal(show) { document.getElementById("modalTentang").style.display = show ? "flex" : "none"; }
+    function toggleModal(show) { 
+      document.getElementById("modalTentang").style.display = show ? "flex" : "none"; 
+    }
+
+    function gantiSesiIbadah(sesi) {
+      sesiTerpilih = sesi;
+      document.getElementById("worshipDhuha").classList.toggle("active", sesi === "Dhuha");
+      document.getElementById("worshipDzuhur").classList.toggle("active", sesi === "Dzuhur");
+    }
+
+    // --- LOGIKA FETCH AMBIL DATA (GET) ---
+    function pilihKelas(namaKelas) {
+      namaKelasGlobal = namaKelas;
+      document.getElementById("active-class-title").innerText = `Kelas ${namaKelas}`;
+      document.getElementById("searchBar").value = "";
+      gantiSesiIbadah("Dhuha"); 
+
+      const container = document.getElementById("studentListContainer");
+      container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:30px; font-size:14px; font-weight:500;"><span class="spinner" style="margin-right:8px; vertical-align:middle;"></span>Mengambil daftar siswa dari Sheets...</p>`;
+      
+      document.getElementById("dashboard").style.display = "none";
+      document.getElementById("attendance-view").style.display = "flex";
+
+      // Mengambil data menggunakan Fetch API dari URL Web App Google Apps Script
+      fetch(`${SCRIPT_URL}?action=getSiswa&kelas=${namaKelas}`)
+        .then(response => {
+          if (!response.ok) throw new Error("Respons jaringan tidak OK");
+          return response.json();
+        })
+        .then(dataSiswaDariSheets => {
+          if(!dataSiswaDariSheets || dataSiswaDariSheets.length === 0) {
+            container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Tab "${namaKelas}" belum dibuat atau kosong.</p>`;
+            return;
+          }
+          currentClassStudents = dataSiswaDariSheets.map(siswa => ({
+            ...siswa,
+            status: "Belum Diabsen"
+          }));
+          renderSiswaList(currentClassStudents);
+        })
+        .catch(error => {
+          console.error("Error fetching data:", error);
+          container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Gagal terhubung ke Google Sheets. Pastikan deployment Apps Script sudah benar.</p>`;
+        });
+    }
+
+    function renderSiswaList(data) {
+      const container = document.getElementById("studentListContainer");
+      container.innerHTML = "";
+
+      if(data.length === 0) {
+        container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px;">Siswa tidak ditemukan.</p>`;
+        return;
+      }
+
+      data.forEach(siswa => {
+        const card = document.createElement("div");
+        card.className = "student-card";
+        card.setAttribute("onclick", `openStatusModal(${siswa.id})`);
+
+        let badgeClass = "";
+        if(siswa.status === "Sholat") badgeClass = "sholat";
+        else if(siswa.status === "Sakit") badgeClass = "sakit";
+        else if(siswa.status === "Izin") badgeClass = "izin";
+        else if(siswa.status === "Alfa") badgeClass = "alfa";
+
+        card.innerHTML = `
+          <div class="student-info">
+            <div class="student-absen">${String(siswa.id).padStart(2, '0')}</div>
+            <div class="student-name">${siswa.name}</div>
+          </div>
+          <div class="status-badge ${badgeClass}">${siswa.status === "Belum Diabsen" ? "Mulai Absen" : "✅ " + siswa.status}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterSiswa() {
+      const keyword = document.getElementById("searchBar").value.toLowerCase().trim();
+      const filtered = currentClassStudents.filter(siswa => {
+        return siswa.name.toLowerCase().includes(keyword) || String(siswa.id).padStart(2, '0').includes(keyword);
+      });
+      renderSiswaList(filtered);
+    }
+
+    function openStatusModal(id) {
+      selectedStudentId = id;
+      const siswa = currentClassStudents.find(s => s.id === id);
+      document.getElementById("modalStudentName").innerText = siswa.name;
+      document.getElementById("modalStudentAbsen").innerText = `Nomor Absen: ${String(siswa.id).padStart(2, '0')}`;
+      toggleStatusModal(true);
+    }
+
+    function toggleStatusModal(show) {
+      document.getElementById("modalStatus").style.display = show ? "flex" : "none";
+    }
+
+    function setSiswaStatus(statusBaru) {
+      const idx = currentClassStudents.findIndex(s => s.id === selectedStudentId);
+      if(idx !== -1) currentClassStudents[idx].status = statusBaru;
+      
+      document.getElementById("searchBar").value = "";
+      renderSiswaList(currentClassStudents);
+      toggleStatusModal(false);
+    }
+
+    // --- LOGIKA FETCH KIRIM DATA (POST) ---
+    function kirimKeSpreadsheet() {
+      const btn = document.getElementById("btnKirimData");
+      btn.innerHTML = '<span class="spinner"></span> Sinkronisasi Google Sheets...';
+      btn.style.pointerEvents = 'none';
+
+      const payload = {
+        kelas: namaKelasGlobal,
+        ibadah: sesiTerpilih,
+        data: currentClassStudents
+      };
+
+      // Mengirim data menggunakan Fetch API dengan metode POST ke Apps Script
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Respons server gagal");
+        return response.json();
+      })
+      .then(res => {
+        btn.innerHTML = 'Kirim Absensi';
+        btn.style.pointerEvents = 'auto';
+
+        if (res.success) {
+          document.getElementById("suksesDetailPesan").innerHTML = `Data absensi <strong>Kelas ${namaKelasGlobal}</strong> untuk sesi <strong>Sholat ${sesiTerpilih}</strong> sukses diposting ke rekapan pusat Spreadsheet!`;
+          document.getElementById("modalSukses").style.display = "flex";
+        } else {
+          alert("Gagal menyimpan data: " + res.error);
+        }
+      })
+      .catch(error => {
+        console.error("Error sending data:", error);
+        btn.innerHTML = 'Kirim Absensi';
+        btn.style.pointerEvents = 'auto';
+        alert("Terjadi kesalahan jaringan atau masalah CORS. Pastikan setelan akses Web App di Apps Script adalah 'Anyone'.");
+      });
+    }
+
+    function tutupModalSukses() {
+      document.getElementById("modalSukses").style.display = "none";
+      eksekusiKeluar(); // Langsung reset tampilan kembali ke dashboard pilih kelas
+    }
+
+    function kembaliKeDashboard() {
+      toggleKonfirmasiModal(true);
+    }
+
+    function toggleKonfirmasiModal(show) {
+      document.getElementById("modalKonfirmasi").style.display = show ? "flex" : "none";
+    }
+
+    function eksekusiKeluar() {
+      toggleKonfirmasiModal(false);
+      document.getElementById("dashboard").style.display = "flex";
+      document.getElementById("attendance-view").style.display = "none";
+    }
   </script>
 </body>
 </html>
