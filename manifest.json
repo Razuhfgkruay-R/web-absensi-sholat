@@ -1,0 +1,20 @@
+{
+  "name": "Absensi Ibadah IPM",
+  "short_name": "Absnsi",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FFCB05",
+  "theme_color": "#FFCB05",
+  "icons": [
+    {
+      "src": "logo-kdi.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo-kdi.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
