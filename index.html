@@ -761,6 +761,14 @@
       document.getElementById("dashboard").style.display = "flex";
       document.getElementById("attendance-view").style.display = "none";
     }
+    // Registrasi Service Worker untuk PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker berhasil terdaftar:', reg.scope))
+          .catch(err => console.error('Gagal mendaftarkan Service Worker:', err));
+      });
+    }
   </script>
 </body>
 </html>
