@@ -11,13 +11,13 @@
       "src": "logo-kdi.png",
       "sizes": "150x150",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "logo-kdi.png",
       "sizes": "530x530",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
