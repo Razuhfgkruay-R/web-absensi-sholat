@@ -4,8 +4,8 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#FFCB05",
-  "theme_color": "#FFCB05",
+  "background_color": "#01A54D",
+  "theme_color": "#01A54D",
   "icons": [
     {
       "src": "logo-kdi.png",
