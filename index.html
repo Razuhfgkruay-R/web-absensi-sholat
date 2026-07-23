@@ -708,7 +708,7 @@
     // --- LOGIKA FETCH KIRIM DATA (POST) ---
     function kirimKeSpreadsheet() {
       const btn = document.getElementById("btnKirimData");
-      btn.innerHTML = '<span class="spinner"></span> Sinkronisasi Google Sheets...';
+      btn.innerHTML = '<span class="spinner"></span> Mengirim...';
       btn.style.pointerEvents = 'none';
 
       const payload = {
@@ -730,7 +730,7 @@
         btn.style.pointerEvents = 'auto';
 
         if (res.success) {
-          document.getElementById("suksesDetailPesan").innerHTML = `Data absensi <strong>Kelas ${namaKelasGlobal}</strong> untuk sesi <strong>Sholat ${sesiTerpilih}</strong> sukses diposting ke rekapan pusat Spreadsheet!`;
+          document.getElementById("suksesDetailPesan").innerHTML = `Data absensi <strong>Kelas ${namaKelasGlobal}</strong> untuk sesi <strong>Sholat ${sesiTerpilih}</strong> sukses`;
           document.getElementById("modalSukses").style.display = "flex";
         } else {
           alert("Gagal menyimpan data: " + res.error);
