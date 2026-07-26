@@ -62,6 +62,29 @@
       --blob-opacity: 0.25;
     }
 
+    /* UNIFIED PILL STYLE: Sync Status & Theme Toggle */
+    .sync-status, .theme-toggle {
+      position: fixed; top: 18px; z-index: 100;
+      background: var(--glass-bg);
+      padding: 8px 16px;
+      height: 38px;
+      border-radius: 30px;
+      border: 1px solid var(--glass-border); 
+      backdrop-filter: blur(10px) saturate(120%);
+      -webkit-backdrop-filter: blur(10px) saturate(120%);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 12px; font-weight: 600; color: var(--text-judul); 
+      box-shadow: var(--glass-shadow);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sync-status { left: 16px; }
+    .theme-toggle { right: 16px; cursor: pointer; }
+    .theme-toggle:hover { transform: scale(1.05); }
+
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
+    .status-dot.loading { background: #3b82f6; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
     * { box-sizing: border-box; }
 
     body {
@@ -98,18 +121,6 @@
       100% { transform: translate(10vw, -5vh) scale(1); }
     }
 
-    /* Theme Toggle */
-    .theme-toggle {
-      position: fixed; top: 20px; right: 20px; cursor: pointer; z-index: 100;
-      background: var(--glass-bg); padding: 10px 18px; border-radius: 30px;
-      border: 1px solid var(--glass-border); 
-      backdrop-filter: blur(10px) saturate(120%);
-      -webkit-backdrop-filter: blur(10px) saturate(120%);
-      display: flex; align-items: center; gap: 10px; font-size: 13px;
-      font-weight: 600; color: var(--text-judul); 
-      box-shadow: var(--glass-shadow); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .theme-toggle:hover { transform: scale(1.05); }
     #theme-icon-container {
       width: 20px; height: 20px; display: flex; align-items: center;
       transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
@@ -337,7 +348,7 @@
       .logo img { width: 100px; }
       .grid { gap: 12px; }
       .btn-main, .grid button { padding: 13px; font-size: 14px; }
-      .theme-toggle { padding: 8px 15px; font-size: 12px; }
+      .sync-status, .theme-toggle { padding: 6px 14px; font-size: 11px; height: 34px; top: 15px; }
     }
   </style>
 </head>
@@ -350,6 +361,13 @@
     <div class="blob blob-cyan"></div>
   </div>
 
+  <!-- SYNC STATUS BADGE (KIRI ATAS) -->
+  <div class="sync-status">
+    <div id="statusDot" class="status-dot"></div>
+    <span id="statusText">Terhubung</span>
+  </div>
+
+  <!-- THEME TOGGLE (KANAN ATAS) -->
   <div class="theme-toggle" onclick="toggleTheme()">
     <span id="theme-text">Mode Terang</span>
     <div id="theme-icon-container"></div>
@@ -515,6 +533,16 @@
     let sesiTerpilih = "Dhuha"; 
     let namaKelasGlobal = "";
 
+    function setSyncState(isLoading, text) {
+      const dot = document.getElementById("statusDot");
+      const txt = document.getElementById("statusText");
+      if (dot && txt) {
+        txt.innerText = text;
+        if (isLoading) dot.classList.add("loading");
+        else dot.classList.remove("loading");
+      }
+    }
+
     function initTheme() {
       const savedTheme = localStorage.getItem('theme') || 'light';
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -623,6 +651,8 @@
       document.getElementById("dashboard").style.display = "none";
       document.getElementById("attendance-view").style.display = "flex";
 
+      setSyncState(true, "Memuat Data...");
+
       fetch(`${SCRIPT_URL}?action=getSiswa&kelas=${namaKelas}`)
         .then(response => {
           if (!response.ok) throw new Error("Respons jaringan tidak OK");
@@ -631,6 +661,7 @@
         .then(dataSiswaDariSheets => {
           if(!dataSiswaDariSheets || dataSiswaDariSheets.length === 0) {
             container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Tab "${namaKelas}" belum dibuat atau kosong.</p>`;
+            setSyncState(false, "Terhubung");
             return;
           }
           currentClassStudents = dataSiswaDariSheets.map(siswa => ({
@@ -638,10 +669,12 @@
             status: "Belum Diabsen"
           }));
           renderSiswaList(currentClassStudents);
+          setSyncState(false, "Terhubung");
         })
         .catch(error => {
           console.error("Error fetching data:", error);
           container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Gagal terhubung ke Google Sheets. Pastikan deployment Apps Script sudah benar.</p>`;
+          setSyncState(false, "Offline / Mode Lokal");
         });
     }
 
@@ -711,6 +744,8 @@
       btn.innerHTML = '<span class="spinner"></span> Mengirim...';
       btn.style.pointerEvents = 'none';
 
+      setSyncState(true, "Mengirim...");
+
       const payload = {
         kelas: namaKelasGlobal,
         ibadah: sesiTerpilih,
@@ -732,8 +767,10 @@
         if (res.success) {
           document.getElementById("suksesDetailPesan").innerHTML = `Data absensi <strong>Kelas ${namaKelasGlobal}</strong> untuk sesi <strong>Sholat ${sesiTerpilih}</strong> sukses`;
           document.getElementById("modalSukses").style.display = "flex";
+          setSyncState(false, "Terhubung");
         } else {
           alert("Gagal menyimpan data: " + res.error);
+          setSyncState(false, "Terhubung");
         }
       })
       .catch(error => {
@@ -741,6 +778,7 @@
         btn.innerHTML = 'Kirim Absensi';
         btn.style.pointerEvents = 'auto';
         alert("Terjadi kesalahan jaringan atau masalah CORS. Pastikan setelan akses Web App di Apps Script adalah 'Anyone'.");
+        setSyncState(false, "Gagal Kirim");
       });
     }
 
