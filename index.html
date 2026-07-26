@@ -81,8 +81,9 @@
     .theme-toggle { right: 16px; cursor: pointer; }
     .theme-toggle:hover { transform: scale(1.05); }
 
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0; transition: background 0.3s; }
     .status-dot.loading { background: #3b82f6; animation: pulse 1s infinite; }
+    .status-dot.offline { background: #ef4444 !important; animation: none !important; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
     * { box-sizing: border-box; }
@@ -100,7 +101,7 @@
       position: relative;
     }
 
-    /* Blob Animasi - Dioptimasi agar enteng di GPU HP */
+    /* Blob Animasi */
     .blob-wrapper {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       z-index: -1; overflow: hidden; filter: blur(30px);
@@ -171,7 +172,7 @@
     .btn-12 { color: #2563eb; border-color: #2563eb; }
     [data-theme="dark"] .grid button { background: rgba(255,255,255,0.05); }
 
-    /* UI Premium Segmented Control (Pilihan Ibadah Atas) */
+    /* UI Premium Segmented Control */
     .worship-toggle-container {
       display: flex; background: rgba(0, 0, 0, 0.06); border-radius: 50px;
       padding: 4px; margin-bottom: 18px; border: 1px solid rgba(128, 128, 128, 0.15);
@@ -435,6 +436,7 @@
     <button class="btn-main btn-back" onclick="kembaliKeDashboard()" style="margin-top:10px; box-shadow:none;">Kembali Pilih Kelas</button>
   </div>
 
+  <!-- MODAL TENTANG -->
   <div id="modalTentang" class="modal">
     <div class="modal-content">
       <div class="special-icon">
@@ -462,6 +464,7 @@
     </div>
   </div>
 
+  <!-- MODAL PASSWORD -->
   <div id="modalPassword" class="modal">
     <div class="modal-content">
       <div class="special-icon">
@@ -481,6 +484,7 @@
     </div>
   </div>
 
+  <!-- MODAL STATUS ABSEN -->
   <div id="modalStatus" class="modal">
     <div class="modal-content">
       <h3 class="gradient-text" id="modalStudentName">Nama Siswa</h3>
@@ -495,6 +499,7 @@
     </div>
   </div>
 
+  <!-- MODAL SUKSES -->
   <div id="modalSukses" class="modal">
     <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(16, 185, 129, 0.3);">
       <div class="special-icon" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3); animation:none;">
@@ -505,7 +510,20 @@
       <button class="btn-close-special" style="background: linear-gradient(90deg, #10b981, #059669); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);" onclick="tutupModalSukses()">Selesai</button>
     </div>
   </div>
+
+  <!-- MODAL ERROR / GAGAL / OFFLINE (CUSTOM GLASS UI) -->
+  <div id="modalGagal" class="modal">
+    <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(239, 68, 68, 0.3);">
+      <div class="special-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3); animation: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      </div>
+      <h3 class="gradient-text" style="background: linear-gradient(to right, #ef4444, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Gagal Terkirim</h3>
+      <p class="modal-desc" id="gagalDetailPesan">Tidak dapat mengirim data. Anda sedang offline</p>
+      <button class="btn-close-special" style="background: linear-gradient(90deg, #ef4444, #dc2626); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);" onclick="tutupModalGagal()">Mengerti</button>
+    </div>
+  </div>
   
+  <!-- MODAL KONFIRMASI -->
   <div id="modalKonfirmasi" class="modal">
     <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(239, 68, 68, 0.3);">
       <div class="special-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3); animation: none;">
@@ -533,13 +551,17 @@
     let sesiTerpilih = "Dhuha"; 
     let namaKelasGlobal = "";
 
-    function setSyncState(isLoading, text) {
+    function setSyncState(state, text) {
       const dot = document.getElementById("statusDot");
       const txt = document.getElementById("statusText");
       if (dot && txt) {
         txt.innerText = text;
-        if (isLoading) dot.classList.add("loading");
-        else dot.classList.remove("loading");
+        dot.classList.remove("loading", "offline");
+        if (state === "loading" || state === true) {
+          dot.classList.add("loading");
+        } else if (state === "offline") {
+          dot.classList.add("offline");
+        }
       }
     }
 
@@ -567,6 +589,15 @@
           if(e.target === this) this.style.display = 'none';
         });
       });
+
+      // Cek status koneksi otomatis saat pertama dimuat
+      if (!navigator.onLine) {
+        setSyncState("offline", "Offline");
+      }
+
+      // Detector perubahan status jaringan real-time
+      window.addEventListener('online', () => setSyncState("online", "Terhubung"));
+      window.addEventListener('offline', () => setSyncState("offline", "Offline"));
     });
 
     function toggleTheme() {
@@ -638,6 +669,16 @@
       document.getElementById("worshipDzuhur").classList.toggle("active", sesi === "Dzuhur");
     }
 
+    // Modal Error Custom
+    function showErrorModal(pesan) {
+      document.getElementById("gagalDetailPesan").innerText = pesan || "Tidak dapat mengirim data. Anda sedang offline";
+      document.getElementById("modalGagal").style.display = "flex";
+    }
+
+    function tutupModalGagal() {
+      document.getElementById("modalGagal").style.display = "none";
+    }
+
     // --- LOGIKA FETCH AMBIL DATA (GET) ---
     function pilihKelas(namaKelas) {
       namaKelasGlobal = namaKelas;
@@ -651,7 +692,7 @@
       document.getElementById("dashboard").style.display = "none";
       document.getElementById("attendance-view").style.display = "flex";
 
-      setSyncState(true, "Memuat Data...");
+      setSyncState("loading", "Memuat Data...");
 
       fetch(`${SCRIPT_URL}?action=getSiswa&kelas=${namaKelas}`)
         .then(response => {
@@ -661,7 +702,7 @@
         .then(dataSiswaDariSheets => {
           if(!dataSiswaDariSheets || dataSiswaDariSheets.length === 0) {
             container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Tab "${namaKelas}" belum dibuat atau kosong.</p>`;
-            setSyncState(false, "Terhubung");
+            setSyncState("online", "Terhubung");
             return;
           }
           currentClassStudents = dataSiswaDariSheets.map(siswa => ({
@@ -669,12 +710,12 @@
             status: "Belum Diabsen"
           }));
           renderSiswaList(currentClassStudents);
-          setSyncState(false, "Terhubung");
+          setSyncState("online", "Terhubung");
         })
         .catch(error => {
           console.error("Error fetching data:", error);
-          container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Gagal terhubung ke Google Sheets. Pastikan deployment Apps Script sudah benar.</p>`;
-          setSyncState(false, "Offline / Mode Lokal");
+          container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Gagal terhubung ke server!</p>`;
+          setSyncState("offline", "Offline");
         });
     }
 
@@ -741,10 +782,17 @@
     // --- LOGIKA FETCH KIRIM DATA (POST) ---
     function kirimKeSpreadsheet() {
       const btn = document.getElementById("btnKirimData");
+
+      if (!navigator.onLine) {
+        setSyncState("offline", "Offline");
+        showErrorModal("Tidak dapat mengirim data. Anda sedang offline");
+        return;
+      }
+
       btn.innerHTML = '<span class="spinner"></span> Mengirim...';
       btn.style.pointerEvents = 'none';
 
-      setSyncState(true, "Mengirim...");
+      setSyncState("loading", "Mengirim...");
 
       const payload = {
         kelas: namaKelasGlobal,
@@ -767,18 +815,18 @@
         if (res.success) {
           document.getElementById("suksesDetailPesan").innerHTML = `Data absensi <strong>Kelas ${namaKelasGlobal}</strong> untuk sesi <strong>Sholat ${sesiTerpilih}</strong> sukses`;
           document.getElementById("modalSukses").style.display = "flex";
-          setSyncState(false, "Terhubung");
+          setSyncState("online", "Terhubung");
         } else {
-          alert("Gagal menyimpan data: " + res.error);
-          setSyncState(false, "Terhubung");
+          showErrorModal(res.error || "Gagal menyimpan data.");
+          setSyncState("online", "Terhubung");
         }
       })
       .catch(error => {
         console.error("Error sending data:", error);
         btn.innerHTML = 'Kirim Absensi';
         btn.style.pointerEvents = 'auto';
-        alert("Terjadi kesalahan jaringan atau masalah CORS. Pastikan setelan akses Web App di Apps Script adalah 'Anyone'.");
-        setSyncState(false, "Gagal Kirim");
+        setSyncState("offline", "Offline");
+        showErrorModal("Tidak dapat mengirim data. Anda sedang offline");
       });
     }
 
