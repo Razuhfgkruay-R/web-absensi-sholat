@@ -432,7 +432,8 @@
     <div class="student-list" id="studentListContainer">
     </div>
 
-    <button class="btn-main" id="btnKirimData" onclick="kirimKeSpreadsheet()">Kirim Absensi</button>
+    <!-- Pemicu modal konfirmasi lebih dulu sebelum kirim -->
+    <button class="btn-main" id="btnKirimData" onclick="bukaModalKonfirmasiKirim()">Kirim Absensi</button>
     <button class="btn-main btn-back" onclick="kembaliKeDashboard()" style="margin-top:10px; box-shadow:none;">Kembali Pilih Kelas</button>
   </div>
 
@@ -499,6 +500,28 @@
     </div>
   </div>
 
+  <!-- NEW: MODAL KONFIRMASI KIRIM (ALERT CEK SESI SHOLAT) -->
+  <div id="modalKonfirmasiKirim" class="modal">
+    <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(59, 130, 246, 0.3);">
+      <div class="special-icon" style="background: linear-gradient(135deg, #2563eb, #3b82f6); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3); animation: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <h3 class="gradient-text">Konfirmasi Pengiriman</h3>
+      <p class="modal-desc" style="margin-bottom: 12px;">
+        Sesi Absensi Aktif:<br>
+        <strong id="confirmSesiText" style="font-size: 18px; color: #2563eb; display: inline-block; margin-top: 4px;">Sholat Dhuha</strong><br>
+        <span id="confirmKelasText" style="font-size: 13px; opacity: 0.8;">Kelas --</span>
+      </p>
+      
+      <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); padding: 12px; border-radius: 16px; color: #d97706; font-size: 13px; font-weight: 700; margin-bottom: 20px;">
+        ⚠️ Pastikan semua siswa sudah ter-absen.
+      </div>
+
+      <button id="btnEksekusiKirim" onclick="eksekusiKirimSpreadsheet()" class="btn-close-special">Ya, Kirim Sekarang</button>
+      <button class="btn-cancel" onclick="toggleKonfirmasiKirimModal(false)">Periksa Kembali</button>
+    </div>
+  </div>
+
   <!-- MODAL SUKSES -->
   <div id="modalSukses" class="modal">
     <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(16, 185, 129, 0.3);">
@@ -523,7 +546,7 @@
     </div>
   </div>
   
-  <!-- MODAL KONFIRMASI -->
+  <!-- MODAL KONFIRMASI KELUAR -->
   <div id="modalKonfirmasi" class="modal">
     <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(239, 68, 68, 0.3);">
       <div class="special-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3); animation: none;">
@@ -779,15 +802,30 @@
       toggleStatusModal(false);
     }
 
-    // --- LOGIKA FETCH KIRIM DATA (POST) ---
-    function kirimKeSpreadsheet() {
-      const btn = document.getElementById("btnKirimData");
-
+    // --- NEW: KONTROL MODAL KONFIRMASI PENGIRIMAN ---
+    function bukaModalKonfirmasiKirim() {
       if (!navigator.onLine) {
         setSyncState("offline", "Offline");
         showErrorModal("Tidak dapat mengirim data. Anda sedang offline");
         return;
       }
+      document.getElementById("confirmSesiText").innerText = `Sholat ${sesiTerpilih}`;
+      document.getElementById("confirmKelasText").innerText = `Kelas ${namaKelasGlobal}`;
+      toggleKonfirmasiKirimModal(true);
+    }
+
+    function toggleKonfirmasiKirimModal(show) {
+      document.getElementById("modalKonfirmasiKirim").style.display = show ? "flex" : "none";
+    }
+
+    function eksekusiKirimSpreadsheet() {
+      toggleKonfirmasiKirimModal(false);
+      kirimKeSpreadsheet();
+    }
+
+    // --- LOGIKA FETCH KIRIM DATA (POST) ---
+    function kirimKeSpreadsheet() {
+      const btn = document.getElementById("btnKirimData");
 
       btn.innerHTML = '<span class="spinner"></span> Mengirim...';
       btn.style.pointerEvents = 'none';
