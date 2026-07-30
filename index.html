@@ -187,6 +187,10 @@
       background: var(--btn-grad); color: white;
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
+    .worship-btn.active-dzuhur {
+      background: linear-gradient(90deg, #d97706, #fbbf24) !important; color: white !important;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25) !important;
+    }
 
     /* Kolom Pencarian & List Siswa */
     .search-container { position: relative; margin-bottom: 18px; width: 100%; }
@@ -239,6 +243,12 @@
     .btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); }
     .btn-main:active { transform: scale(0.96); }
     
+    .btn-dzuhur {
+      background: linear-gradient(90deg, #d97706, #fbbf24) !important;
+      box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3) !important;
+    }
+    .btn-dzuhur:hover { box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4) !important; }
+
     .btn-about { 
       background: rgba(255, 255, 255, 0.1); border: 2px solid #3b82f6; 
       color: var(--text-judul); margin-top: 15px; box-shadow: none; backdrop-filter: blur(5px);
@@ -390,28 +400,28 @@
     <p>Pilih kelas untuk input</p>
     <div class="grid">
       <div class="tingkat-header" style="border-color: #059669;">Kelas 10</div>
-      <button class="btn-10" onclick="pilihKelas('10.1')">10.1</button>
-      <button class="btn-10" onclick="pilihKelas('10.2')">10.2</button>
-      <button class="btn-10" onclick="pilihKelas('10.3')">10.3</button>
-      <button class="btn-10" onclick="pilihKelas('10.4')">10.4</button>
-      <button class="btn-10" onclick="pilihKelas('10.5')">10.5</button>
-      <button class="btn-10" onclick="pilihKelas('10.6')">10.6</button>
+      <button class="btn-10" onclick="prepPilihKelas('10.1')">10.1</button>
+      <button class="btn-10" onclick="prepPilihKelas('10.2')">10.2</button>
+      <button class="btn-10" onclick="prepPilihKelas('10.3')">10.3</button>
+      <button class="btn-10" onclick="prepPilihKelas('10.4')">10.4</button>
+      <button class="btn-10" onclick="prepPilihKelas('10.5')">10.5</button>
+      <button class="btn-10" onclick="prepPilihKelas('10.6')">10.6</button>
 
       <div class="tingkat-header" style="border-color: #d97706;">Kelas 11</div>
-      <button class="btn-11" onclick="pilihKelas('11.1')">11.1</button>
-      <button class="btn-11" onclick="pilihKelas('11.2')">11.2</button>
-      <button class="btn-11" onclick="pilihKelas('11.3')">11.3</button>
-      <button class="btn-11" onclick="pilihKelas('11.4')">11.4</button>
-      <button class="btn-11" onclick="pilihKelas('11.5')">11.5</button>
-      <button class="btn-11" onclick="pilihKelas('11.6')">11.6</button>
+      <button class="btn-11" onclick="prepPilihKelas('11.1')">11.1</button>
+      <button class="btn-11" onclick="prepPilihKelas('11.2')">11.2</button>
+      <button class="btn-11" onclick="prepPilihKelas('11.3')">11.3</button>
+      <button class="btn-11" onclick="prepPilihKelas('11.4')">11.4</button>
+      <button class="btn-11" onclick="prepPilihKelas('11.5')">11.5</button>
+      <button class="btn-11" onclick="prepPilihKelas('11.6')">11.6</button>
 
       <div class="tingkat-header" style="border-color: #2563eb;">Kelas 12</div>
-      <button class="btn-12" onclick="pilihKelas('12.1')">12.1</button>
-      <button class="btn-12" onclick="pilihKelas('12.2')">12.2</button>
-      <button class="btn-12" onclick="pilihKelas('12.3')">12.3</button>
-      <button class="btn-12" onclick="pilihKelas('12.4')">12.4</button>
-      <button class="btn-12" onclick="pilihKelas('12.5')">12.5</button>
-      <button class="btn-12" onclick="pilihKelas('12.6')">12.6</button>
+      <button class="btn-12" onclick="prepPilihKelas('12.1')">12.1</button>
+      <button class="btn-12" onclick="prepPilihKelas('12.2')">12.2</button>
+      <button class="btn-12" onclick="prepPilihKelas('12.3')">12.3</button>
+      <button class="btn-12" onclick="prepPilihKelas('12.4')">12.4</button>
+      <button class="btn-12" onclick="prepPilihKelas('12.5')">12.5</button>
+      <button class="btn-12" onclick="prepPilihKelas('12.6')">12.6</button>
     </div>
     <button class="btn-main btn-back" onclick="kembali()">Kembali</button>
   </div>
@@ -421,7 +431,7 @@
     <p style="margin-bottom: 12px;">Pilih sesi ibadah lalu isi keterangan siswa</p>
     
     <div class="worship-toggle-container">
-      <button class="worship-btn active" id="worshipDhuha" onclick="gantiSesiIbadah('Dhuha')">Sholat Dhuha</button>
+      <button class="worship-btn" id="worshipDhuha" onclick="gantiSesiIbadah('Dhuha')">Sholat Dhuha</button>
       <button class="worship-btn" id="worshipDzuhur" onclick="gantiSesiIbadah('Dzuhur')">Sholat Dzuhur</button>
     </div>
 
@@ -432,10 +442,30 @@
     <div class="student-list" id="studentListContainer">
     </div>
 
-    <!-- Pemicu modal konfirmasi lebih dulu sebelum kirim -->
     <button class="btn-main" id="btnKirimData" onclick="bukaModalKonfirmasiKirim()">Kirim Absensi</button>
     <button class="btn-main btn-back" onclick="kembaliKeDashboard()" style="margin-top:10px; box-shadow:none;">Kembali Pilih Kelas</button>
   </div>
+
+
+  <!-- ============================================== -->
+  <!-- MODAL BARU: PILIH SESI SEBELUM MASUK DAFTAR   -->
+  <!-- ============================================== -->
+  <div id="modalPilihSesi" class="modal">
+    <div class="modal-content" style="max-width: 360px;">
+      <div class="special-icon" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      </div>
+      <h3 class="gradient-text" style="background: linear-gradient(to right, #059669, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pilih Sesi Ibadah</h3>
+      <p class="modal-desc" style="margin-bottom: 20px;">Sesi absensi untuk <strong id="sesiKelasText" style="color: #059669;">Kelas --</strong></p>
+      
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <button class="btn-main" onclick="lanjutPilihKelas('Dhuha')" style="padding: 18px;">Sholat Dhuha</button>
+        <button class="btn-main btn-dzuhur" onclick="lanjutPilihKelas('Dzuhur')" style="padding: 18px;">Sholat Dzuhur</button>
+        <button class="btn-cancel" onclick="tutupModalPilihSesi()">Batal</button>
+      </div>
+    </div>
+  </div>
+
 
   <!-- MODAL TENTANG -->
   <div id="modalTentang" class="modal">
@@ -454,7 +484,7 @@
         </div>
         <div class="stat-box">
           <div class="stat-label">Version</div>
-          <div class="stat-value">v1.0.3</div>
+          <div class="stat-value">v1.0.4</div>
         </div>
         <div class="stat-box full-width">
           <div class="stat-label">Developed by</div>
@@ -500,7 +530,7 @@
     </div>
   </div>
 
-  <!-- NEW: MODAL KONFIRMASI KIRIM (ALERT CEK SESI SHOLAT) -->
+  <!-- MODAL KONFIRMASI KIRIM (ALERT CEK SESI SHOLAT) -->
   <div id="modalKonfirmasiKirim" class="modal">
     <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(59, 130, 246, 0.3);">
       <div class="special-icon" style="background: linear-gradient(135deg, #2563eb, #3b82f6); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3); animation: none;">
@@ -573,6 +603,7 @@
     let selectedStudentId = null;
     let sesiTerpilih = "Dhuha"; 
     let namaKelasGlobal = "";
+    let kelasPilihanTertunda = ""; // Variabel baru untuk Modal Pilih Sesi
 
     function setSyncState(state, text) {
       const dot = document.getElementById("statusDot");
@@ -686,10 +717,35 @@
       document.getElementById("modalTentang").style.display = show ? "flex" : "none"; 
     }
 
+    // --- FUNGSI BARU UNTUK CEGAT PILIH SESI ---
+    function prepPilihKelas(kelas) {
+      kelasPilihanTertunda = kelas;
+      document.getElementById("sesiKelasText").innerText = `Kelas ${kelas}`;
+      document.getElementById("modalPilihSesi").style.display = "flex";
+    }
+
+    function tutupModalPilihSesi() {
+      document.getElementById("modalPilihSesi").style.display = "none";
+    }
+
+    function lanjutPilihKelas(sesi) {
+      tutupModalPilihSesi();
+      pilihKelas(kelasPilihanTertunda, sesi);
+    }
+
     function gantiSesiIbadah(sesi) {
       sesiTerpilih = sesi;
-      document.getElementById("worshipDhuha").classList.toggle("active", sesi === "Dhuha");
-      document.getElementById("worshipDzuhur").classList.toggle("active", sesi === "Dzuhur");
+      const btnDhuha = document.getElementById("worshipDhuha");
+      const btnDzuhur = document.getElementById("worshipDzuhur");
+      
+      btnDhuha.classList.remove("active");
+      btnDzuhur.classList.remove("active", "active-dzuhur");
+
+      if(sesi === "Dhuha") {
+        btnDhuha.classList.add("active");
+      } else {
+        btnDzuhur.classList.add("active", "active-dzuhur");
+      }
     }
 
     // Modal Error Custom
@@ -703,11 +759,14 @@
     }
 
     // --- LOGIKA FETCH AMBIL DATA (GET) ---
-    function pilihKelas(namaKelas) {
+    // Update fungsi pilihKelas untuk menerima parameter sesi bawaan
+    function pilihKelas(namaKelas, sesiAwal) {
       namaKelasGlobal = namaKelas;
       document.getElementById("active-class-title").innerText = `Kelas ${namaKelas}`;
       document.getElementById("searchBar").value = "";
-      gantiSesiIbadah("Dhuha"); 
+      
+      // Set sesi yang dipilih dari popup modal
+      gantiSesiIbadah(sesiAwal); 
 
       const container = document.getElementById("studentListContainer");
       container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:30px; font-size:14px; font-weight:500;"><span class="spinner" style="margin-right:8px; vertical-align:middle;"></span>Mengambil daftar siswa dari Sheets...</p>`;
@@ -802,14 +861,24 @@
       toggleStatusModal(false);
     }
 
-    // --- NEW: KONTROL MODAL KONFIRMASI PENGIRIMAN ---
+    // --- KONTROL MODAL KONFIRMASI PENGIRIMAN ---
     function bukaModalKonfirmasiKirim() {
       if (!navigator.onLine) {
         setSyncState("offline", "Offline");
         showErrorModal("Tidak dapat mengirim data. Anda sedang offline");
         return;
       }
-      document.getElementById("confirmSesiText").innerText = `Sholat ${sesiTerpilih}`;
+      
+      // Update warna alert berdasarkan sesi agar petugas lebih peka
+      const sesiTextEl = document.getElementById("confirmSesiText");
+      sesiTextEl.innerText = `Sholat ${sesiTerpilih}`;
+      
+      if(sesiTerpilih === "Dzuhur") {
+        sesiTextEl.style.color = "#d97706"; // Warna Orange / Dzuhur
+      } else {
+        sesiTextEl.style.color = "#2563eb"; // Warna Biru / Dhuha
+      }
+      
       document.getElementById("confirmKelasText").innerText = `Kelas ${namaKelasGlobal}`;
       toggleKonfirmasiKirimModal(true);
     }
