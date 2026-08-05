@@ -192,14 +192,50 @@
       box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25) !important;
     }
 
-    /* Kolom Pencarian & List Siswa */
-    .search-container { position: relative; margin-bottom: 18px; width: 100%; }
+    /* Kolom Pencarian & Refresh Container */
+    .search-wrapper {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 18px;
+      width: 100%;
+    }
+    .search-container { position: relative; flex: 1; }
     .search-input {
       width: 100%; padding: 14px 20px; border-radius: 50px;
       font-size: 14px; outline: none; font-family: inherit; color: var(--text-judul);
       transition: 0.3s; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
     }
     .search-input:focus { border-color: #3b82f6 !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+
+    /* Tombol Refresh KDI Style */
+    .btn-refresh {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.4);
+      color: var(--text-judul);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--glass-shadow);
+    }
+    [data-theme="dark"] .btn-refresh {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .btn-refresh:hover {
+      transform: rotate(45deg) scale(1.05);
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+    }
+    .btn-refresh:active { transform: scale(0.92); }
+    .btn-refresh.spinning svg {
+      animation: spin 0.8s linear infinite;
+    }
 
     .student-list {
       display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
@@ -304,6 +340,19 @@
     .btn-sel-sakit { background: #fef3c7; color: #92400e; }  .btn-sel-sakit:hover { border-color: #f59e0b; }
     .btn-sel-izin { background: #dbeafe; color: #1e40af; }   .btn-sel-izin:hover { border-color: #3b82f6; }
     .btn-sel-alfa { background: #fee2e2; color: #991b1b; }   .btn-sel-alfa:hover { border-color: #ef4444; }
+
+    /* Style Tombol Reset / Batalkan Pilihan */
+    .btn-sel-reset {
+      grid-column: span 2;
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text-p);
+      border: 1.5px dashed rgba(148, 163, 184, 0.5);
+      padding: 12px;
+    }
+    .btn-sel-reset:hover {
+      background: rgba(148, 163, 184, 0.25);
+      border-color: #64748b;
+    }
 
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
     .stat-box {
@@ -435,8 +484,14 @@
       <button class="worship-btn" id="worshipDzuhur" onclick="gantiSesiIbadah('Dzuhur')">Sholat Dzuhur</button>
     </div>
 
-    <div class="search-container">
-      <input type="text" id="searchBar" class="search-input" placeholder="Cari No. Absen / Nama..." oninput="filterSiswa()">
+    <!-- WRAPPER SEARCH & REFRESH -->
+    <div class="search-wrapper">
+      <div class="search-container">
+        <input type="text" id="searchBar" class="search-input" placeholder="Cari No. Absen / Nama..." oninput="filterSiswa()">
+      </div>
+      <button id="btnRefresh" class="btn-refresh" onclick="refreshDataSiswa()" title="Muat Ulang Data">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6"></path><path d="M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+      </button>
     </div>
 
     <div class="student-list" id="studentListContainer">
@@ -448,7 +503,7 @@
 
 
   <!-- ============================================== -->
-  <!-- MODAL BARU: PILIH SESI SEBELUM MASUK DAFTAR   -->
+  <!-- MODAL: PILIH SESI SEBELUM MASUK DAFTAR          -->
   <!-- ============================================== -->
   <div id="modalPilihSesi" class="modal">
     <div class="modal-content" style="max-width: 360px;">
@@ -525,8 +580,11 @@
         <button class="btn-status-select btn-sel-sakit" onclick="setSiswaStatus('Sakit')">🟡 Sakit</button>
         <button class="btn-status-select btn-sel-izin" onclick="setSiswaStatus('Izin')">🔵 Izin</button>
         <button class="btn-status-select btn-sel-alfa" onclick="setSiswaStatus('Alfa')">🔴 Alfa</button>
+        
+        <!-- TOMBOL BATALKAN PILIHAN / RESET STATUS -->
+        <button class="btn-status-select btn-sel-reset" onclick="setSiswaStatus('Belum Diabsen')">⚪ Batalkan Pilihan (Reset)</button>
       </div>
-      <button class="btn-cancel" onclick="toggleStatusModal(false)">Batal</button>
+      <button class="btn-cancel" onclick="toggleStatusModal(false)">Tutup</button>
     </div>
   </div>
 
@@ -603,7 +661,7 @@
     let selectedStudentId = null;
     let sesiTerpilih = "Dhuha"; 
     let namaKelasGlobal = "";
-    let kelasPilihanTertunda = ""; // Variabel baru untuk Modal Pilih Sesi
+    let kelasPilihanTertunda = ""; 
 
     function setSyncState(state, text) {
       const dot = document.getElementById("statusDot");
@@ -717,7 +775,7 @@
       document.getElementById("modalTentang").style.display = show ? "flex" : "none"; 
     }
 
-    // --- FUNGSI BARU UNTUK CEGAT PILIH SESI ---
+    // --- FUNGSI PILIH SESI ---
     function prepPilihKelas(kelas) {
       kelasPilihanTertunda = kelas;
       document.getElementById("sesiKelasText").innerText = `Kelas ${kelas}`;
@@ -758,18 +816,26 @@
       document.getElementById("modalGagal").style.display = "none";
     }
 
+    // --- LOGIKA REFRESH DATA KDI STYLE ---
+    function refreshDataSiswa() {
+      if (!namaKelasGlobal) return;
+      const btnRefresh = document.getElementById("btnRefresh");
+      btnRefresh.classList.add("spinning");
+      pilihKelas(namaKelasGlobal, sesiTerpilih, true);
+    }
+
     // --- LOGIKA FETCH AMBIL DATA (GET) ---
-    // Update fungsi pilihKelas untuk menerima parameter sesi bawaan
-    function pilihKelas(namaKelas, sesiAwal) {
+    function pilihKelas(namaKelas, sesiAwal, isRefresh = false) {
       namaKelasGlobal = namaKelas;
       document.getElementById("active-class-title").innerText = `Kelas ${namaKelas}`;
       document.getElementById("searchBar").value = "";
       
-      // Set sesi yang dipilih dari popup modal
       gantiSesiIbadah(sesiAwal); 
 
       const container = document.getElementById("studentListContainer");
-      container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:30px; font-size:14px; font-weight:500;"><span class="spinner" style="margin-right:8px; vertical-align:middle;"></span>Mengambil daftar siswa dari Sheets...</p>`;
+      if (!isRefresh) {
+        container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:30px; font-size:14px; font-weight:500;"><span class="spinner" style="margin-right:8px; vertical-align:middle;"></span>Mengambil daftar siswa dari Sheets...</p>`;
+      }
       
       document.getElementById("dashboard").style.display = "none";
       document.getElementById("attendance-view").style.display = "flex";
@@ -782,19 +848,38 @@
           return response.json();
         })
         .then(dataSiswaDariSheets => {
+          const btnRefresh = document.getElementById("btnRefresh");
+          if(btnRefresh) btnRefresh.classList.remove("spinning");
+
           if(!dataSiswaDariSheets || dataSiswaDariSheets.length === 0) {
             container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Tab "${namaKelas}" belum dibuat atau kosong.</p>`;
             setSyncState("online", "Terhubung");
             return;
           }
-          currentClassStudents = dataSiswaDariSheets.map(siswa => ({
-            ...siswa,
-            status: "Belum Diabsen"
-          }));
+
+          // Pertahankan status yang sudah sempat di-input petugas lokal jika refresh
+          if (isRefresh && currentClassStudents.length > 0) {
+            const statusMap = {};
+            currentClassStudents.forEach(s => statusMap[s.id] = s.status);
+
+            currentClassStudents = dataSiswaDariSheets.map(siswa => ({
+              ...siswa,
+              status: statusMap[siswa.id] || "Belum Diabsen"
+            }));
+          } else {
+            currentClassStudents = dataSiswaDariSheets.map(siswa => ({
+              ...siswa,
+              status: "Belum Diabsen"
+            }));
+          }
+
           renderSiswaList(currentClassStudents);
           setSyncState("online", "Terhubung");
         })
         .catch(error => {
+          const btnRefresh = document.getElementById("btnRefresh");
+          if(btnRefresh) btnRefresh.classList.remove("spinning");
+
           console.error("Error fetching data:", error);
           container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Gagal terhubung ke server!</p>`;
           setSyncState("offline", "Offline");
@@ -869,14 +954,13 @@
         return;
       }
       
-      // Update warna alert berdasarkan sesi agar petugas lebih peka
       const sesiTextEl = document.getElementById("confirmSesiText");
       sesiTextEl.innerText = `Sholat ${sesiTerpilih}`;
       
       if(sesiTerpilih === "Dzuhur") {
-        sesiTextEl.style.color = "#d97706"; // Warna Orange / Dzuhur
+        sesiTextEl.style.color = "#d97706";
       } else {
-        sesiTextEl.style.color = "#2563eb"; // Warna Biru / Dhuha
+        sesiTextEl.style.color = "#2563eb";
       }
       
       document.getElementById("confirmKelasText").innerText = `Kelas ${namaKelasGlobal}`;
