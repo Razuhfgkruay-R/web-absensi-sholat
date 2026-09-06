@@ -167,7 +167,7 @@
 
     .worship-toggle-container {
       display: flex; background: rgba(0, 0, 0, 0.06); border-radius: 50px;
-      padding: 4px; margin-bottom: 12px; border: 1px solid rgba(128, 128, 128, 0.15);
+      padding: 4px; margin-bottom: 18px; border: 1px solid rgba(128, 128, 128, 0.15);
     }
     [data-theme="dark"] .worship-toggle-container { background: rgba(255, 255, 255, 0.05); }
     .worship-btn {
@@ -182,19 +182,6 @@
     .worship-btn.active-dzuhur {
       background: linear-gradient(90deg, #d97706, #fbbf24) !important; color: white !important;
       box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25) !important;
-    }
-
-    /* BADGE DRAFT LOKAL */
-    .draft-badge {
-      font-size: 11px;
-      font-weight: 700;
-      color: #3b82f6;
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px dashed rgba(59, 130, 246, 0.4);
-      padding: 4px 12px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-bottom: 12px;
     }
 
     .search-wrapper {
@@ -472,9 +459,7 @@
 
   <div id="attendance-view" style="display:none;">
     <h2 class="judul" id="active-class-title">Kelas --</h2>
-    <p style="margin-bottom: 8px;">Pilih sesi ibadah lalu isi keterangan siswa</p>
-    
-    <div id="draftBadgeText" class="draft-badge" style="display:none;">💾 Tersimpan di HP (Draft)</div>
+    <p style="margin-bottom: 16px;">Pilih sesi ibadah lalu isi keterangan siswa</p>
 
     <div class="worship-toggle-container">
       <button class="worship-btn" id="worshipDhuha" onclick="gantiSesiIbadah('Dhuha')">Sholat Dhuha</button>
@@ -645,7 +630,6 @@
     let namaKelasGlobal = "";
     let kelasPilihanTertunda = ""; 
 
-    // --- FITUR DRAFT LOKAL (LOCALSTORAGE) ---
     function getDraftKey() {
       return `draft_absensi_${namaKelasGlobal}_${sesiTerpilih}`;
     }
@@ -654,7 +638,6 @@
       if (!namaKelasGlobal || currentClassStudents.length === 0) return;
       try {
         localStorage.setItem(getDraftKey(), JSON.stringify(currentClassStudents));
-        updateDraftBadgeUI(true);
       } catch (e) {
         console.error("Gagal simpan draft lokal", e);
       }
@@ -668,29 +651,18 @@
           const parsed = JSON.parse(savedData);
           if (Array.isArray(parsed) && parsed.length > 0) {
             currentClassStudents = parsed;
-            updateDraftBadgeUI(true);
             return true;
           }
         } catch (e) {
           console.error("Error parsing draft lokal", e);
         }
       }
-      updateDraftBadgeUI(false);
       return false;
     }
 
     function hapusDraftLokal() {
       if (!namaKelasGlobal) return;
       localStorage.removeItem(getDraftKey());
-      updateDraftBadgeUI(false);
-    }
-
-    function updateDraftBadgeUI(adaDraft) {
-      const badge = document.getElementById("draftBadgeText");
-      if (badge) {
-        const hasEdited = currentClassStudents.some(s => s.status !== "Belum Diabsen");
-        badge.style.display = (adaDraft && hasEdited) ? "inline-block" : "none";
-      }
     }
 
     function setSyncState(state, text) {
@@ -850,7 +822,7 @@
 
     function refreshDataSiswa() {
       if (!namaKelasGlobal) return;
-      hapusDraftLokal(); // Hapus draft lama jika tombol refresh ditekan manual
+      hapusDraftLokal();
       const btnRefresh = document.getElementById("btnRefresh");
       btnRefresh.classList.add("spinning");
       pilihKelas(namaKelasGlobal, sesiTerpilih, true);
@@ -902,7 +874,6 @@
               ...siswa,
               status: "Belum Diabsen"
             }));
-            updateDraftBadgeUI(false);
           }
 
           renderSiswaList(currentClassStudents);
@@ -979,7 +950,7 @@
       if(idx !== -1) currentClassStudents[idx].status = statusBaru;
       
       document.getElementById("searchBar").value = "";
-      simpanDraftLokal(); // OTOMATIS SIMPAN KE LOCALSTORAGE SAAT MENGUBAH STATUS
+      simpanDraftLokal();
       renderSiswaList(currentClassStudents);
       toggleStatusModal(false);
     }
@@ -1040,7 +1011,7 @@
         btn.style.pointerEvents = 'auto';
 
         if (res.success) {
-          hapusDraftLokal(); // HAPUS DRAFT SETELAH BERHASIL DISIMPAN KE SPREADSHEET
+          hapusDraftLokal();
           document.getElementById("suksesDetailPesan").innerHTML = `Data absensi <strong>Kelas ${namaKelasGlobal}</strong> untuk sesi <strong>Sholat ${sesiTerpilih}</strong> sukses`;
           document.getElementById("modalSukses").style.display = "flex";
           setSyncState("online", "Terhubung");
