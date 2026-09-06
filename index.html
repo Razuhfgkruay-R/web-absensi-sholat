@@ -26,7 +26,6 @@
       --blob-opacity: 0.6;
     }
 
-    /* --- FIX TAMPILAN MODAL GELAP --- */
     .modal-content {
       background: rgba(255, 255, 255, 0.95) !important; 
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
@@ -37,7 +36,6 @@
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
     }
 
-    /* Memperjelas kolom input agar tidak menyatu dengan background */
     .pass-input, .search-input {
       background: #f1f5f9 !important;
       border: 1px solid #cbd5e1 !important;
@@ -54,7 +52,6 @@
       --text-p: #cbd5e1; 
       --btn-grad: linear-gradient(90deg, #3b82f6, #60a5fa);
       
-      /* Variabel Liquid Glass Mode Gelap */
       --glass-bg: rgba(15, 23, 42, 0.55);
       --glass-border: rgba(255, 255, 255, 0.1);
       --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
@@ -62,7 +59,6 @@
       --blob-opacity: 0.25;
     }
 
-    /* UNIFIED PILL STYLE: Sync Status & Theme Toggle */
     .sync-status, .theme-toggle {
       position: fixed; top: 18px; z-index: 100;
       background: var(--glass-bg);
@@ -101,7 +97,6 @@
       position: relative;
     }
 
-    /* Blob Animasi */
     .blob-wrapper {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       z-index: -1; overflow: hidden; filter: blur(30px);
@@ -129,7 +124,6 @@
     #theme-icon-container svg { width: 100%; height: 100%; fill: currentColor; }
     .rotate-anim { transform: rotate(360deg); opacity: 0; }
 
-    /* Card Utama */
     #welcome, #dashboard, #attendance-view, .modal-content {
       background: var(--glass-bg);
       backdrop-filter: blur(12px) saturate(130%);
@@ -148,7 +142,6 @@
     .judul { font-weight: 800; font-size: 28px; color: var(--text-judul); margin: 0; line-height: 1.3; }
     p { font-size: 14px; color: var(--text-p); margin-bottom: 25px; }
 
-    /* Grid Kelas */
     .grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; 
       overflow-y: auto; padding: 5px; margin-bottom: 20px; scrollbar-width: none;
@@ -172,10 +165,9 @@
     .btn-12 { color: #2563eb; border-color: #2563eb; }
     [data-theme="dark"] .grid button { background: rgba(255,255,255,0.05); }
 
-    /* UI Premium Segmented Control */
     .worship-toggle-container {
       display: flex; background: rgba(0, 0, 0, 0.06); border-radius: 50px;
-      padding: 4px; margin-bottom: 18px; border: 1px solid rgba(128, 128, 128, 0.15);
+      padding: 4px; margin-bottom: 12px; border: 1px solid rgba(128, 128, 128, 0.15);
     }
     [data-theme="dark"] .worship-toggle-container { background: rgba(255, 255, 255, 0.05); }
     .worship-btn {
@@ -192,7 +184,19 @@
       box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25) !important;
     }
 
-    /* Kolom Pencarian & Refresh Container */
+    /* BADGE DRAFT LOKAL */
+    .draft-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: #3b82f6;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px dashed rgba(59, 130, 246, 0.4);
+      padding: 4px 12px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
     .search-wrapper {
       display: flex;
       gap: 10px;
@@ -208,7 +212,6 @@
     }
     .search-input:focus { border-color: #3b82f6 !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
 
-    /* Tombol Refresh KDI Style */
     .btn-refresh {
       width: 48px;
       height: 48px;
@@ -262,14 +265,12 @@
     }
     .student-name { font-size: 14px; font-weight: 600; color: var(--text-judul); }
     
-    /* Badge Status */
     .status-badge { font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 30px; background: rgba(100,116,139,0.15); color: #64748b; transition: 0.2s; }
     .status-badge.sholat { background: #d1fae5; color: #065f46; }
     .status-badge.sakit { background: #fef3c7; color: #92400e; }
     .status-badge.izin { background: #dbeafe; color: #1e40af; }
     .status-badge.alfa { background: #fee2e2; color: #991b1b; }
 
-    /* Tombol Utama */
     .btn-main {
       width: 100%; padding: 15px; font-size: 16px; font-weight: 600;
       border: none; border-radius: 50px; background: var(--btn-grad);
@@ -293,7 +294,6 @@
     .btn-back { background: #64748b; font-size: 14px; margin-top: auto; box-shadow: 0 8px 20px rgba(100, 116, 139, 0.3); color: white; }
     .btn-back:hover { background: #475569; }
 
-    /* Modal */
     .modal {
       display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
       backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
@@ -330,7 +330,6 @@
     .modal-desc strong { color: #d97706; }
     [data-theme="dark"] .modal-desc strong { color: #fbbf24; }
 
-    /* Grid Pilihan Status Absensi */
     .status-selection-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
     .btn-status-select {
       padding: 15px; font-weight: 700; border-radius: 18px; border: 2px solid transparent; cursor: pointer; font-family: inherit; font-size: 14px; transition: 0.2s;
@@ -341,7 +340,6 @@
     .btn-sel-izin { background: #dbeafe; color: #1e40af; }   .btn-sel-izin:hover { border-color: #3b82f6; }
     .btn-sel-alfa { background: #fee2e2; color: #991b1b; }   .btn-sel-alfa:hover { border-color: #ef4444; }
 
-    /* Style Tombol Reset / Batalkan Pilihan */
     .btn-sel-reset {
       grid-column: span 2;
       background: rgba(148, 163, 184, 0.15);
@@ -392,7 +390,6 @@
     }
     .toggle-eye svg { width: 100%; height: 100%; fill: currentColor; }
 
-    /* Animasi Spinner Loading */
     .spinner {
       display: inline-block; width: 18px; height: 18px;
       border: 3px solid rgba(255,255,255,0.3); border-radius: 50%;
@@ -421,13 +418,11 @@
     <div class="blob blob-cyan"></div>
   </div>
 
-  <!-- SYNC STATUS BADGE (KIRI ATAS) -->
   <div class="sync-status">
     <div id="statusDot" class="status-dot"></div>
     <span id="statusText">Terhubung</span>
   </div>
 
-  <!-- THEME TOGGLE (KANAN ATAS) -->
   <div class="theme-toggle" onclick="toggleTheme()">
     <span id="theme-text">Mode Terang</span>
     <div id="theme-icon-container"></div>
@@ -477,14 +472,15 @@
 
   <div id="attendance-view" style="display:none;">
     <h2 class="judul" id="active-class-title">Kelas --</h2>
-    <p style="margin-bottom: 12px;">Pilih sesi ibadah lalu isi keterangan siswa</p>
+    <p style="margin-bottom: 8px;">Pilih sesi ibadah lalu isi keterangan siswa</p>
     
+    <div id="draftBadgeText" class="draft-badge" style="display:none;">💾 Tersimpan di HP (Draft)</div>
+
     <div class="worship-toggle-container">
       <button class="worship-btn" id="worshipDhuha" onclick="gantiSesiIbadah('Dhuha')">Sholat Dhuha</button>
       <button class="worship-btn" id="worshipDzuhur" onclick="gantiSesiIbadah('Dzuhur')">Sholat Dzuhur</button>
     </div>
 
-    <!-- WRAPPER SEARCH & REFRESH -->
     <div class="search-wrapper">
       <div class="search-container">
         <input type="text" id="searchBar" class="search-input" placeholder="Cari No. Absen / Nama..." oninput="filterSiswa()">
@@ -501,10 +497,6 @@
     <button class="btn-main btn-back" onclick="kembaliKeDashboard()" style="margin-top:10px; box-shadow:none;">Kembali Pilih Kelas</button>
   </div>
 
-
-  <!-- ============================================== -->
-  <!-- MODAL: PILIH SESI SEBELUM MASUK DAFTAR          -->
-  <!-- ============================================== -->
   <div id="modalPilihSesi" class="modal">
     <div class="modal-content" style="max-width: 360px;">
       <div class="special-icon" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);">
@@ -521,8 +513,6 @@
     </div>
   </div>
 
-
-  <!-- MODAL TENTANG -->
   <div id="modalTentang" class="modal">
     <div class="modal-content">
       <div class="special-icon">
@@ -539,7 +529,7 @@
         </div>
         <div class="stat-box">
           <div class="stat-label">Version</div>
-          <div class="stat-value">v1.0.4</div>
+          <div class="stat-value">v1.0.5</div>
         </div>
         <div class="stat-box full-width">
           <div class="stat-label">Developed by</div>
@@ -550,7 +540,6 @@
     </div>
   </div>
 
-  <!-- MODAL PASSWORD -->
   <div id="modalPassword" class="modal">
     <div class="modal-content">
       <div class="special-icon">
@@ -570,7 +559,6 @@
     </div>
   </div>
 
-  <!-- MODAL STATUS ABSEN -->
   <div id="modalStatus" class="modal">
     <div class="modal-content">
       <h3 class="gradient-text" id="modalStudentName">Nama Siswa</h3>
@@ -581,14 +569,12 @@
         <button class="btn-status-select btn-sel-izin" onclick="setSiswaStatus('Izin')">🔵 Izin</button>
         <button class="btn-status-select btn-sel-alfa" onclick="setSiswaStatus('Alfa')">🔴 Alfa</button>
         
-        <!-- TOMBOL BATALKAN PILIHAN / RESET STATUS -->
         <button class="btn-status-select btn-sel-reset" onclick="setSiswaStatus('Belum Diabsen')">⚪ Batalkan Pilihan</button>
       </div>
       <button class="btn-cancel" onclick="toggleStatusModal(false)">Tutup</button>
     </div>
   </div>
 
-  <!-- MODAL KONFIRMASI KIRIM (ALERT CEK SESI SHOLAT) -->
   <div id="modalKonfirmasiKirim" class="modal">
     <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(59, 130, 246, 0.3);">
       <div class="special-icon" style="background: linear-gradient(135deg, #2563eb, #3b82f6); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3); animation: none;">
@@ -610,7 +596,6 @@
     </div>
   </div>
 
-  <!-- MODAL SUKSES -->
   <div id="modalSukses" class="modal">
     <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(16, 185, 129, 0.3);">
       <div class="special-icon" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3); animation:none;">
@@ -622,7 +607,6 @@
     </div>
   </div>
 
-  <!-- MODAL ERROR / GAGAL / OFFLINE (CUSTOM GLASS UI) -->
   <div id="modalGagal" class="modal">
     <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(239, 68, 68, 0.3);">
       <div class="special-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3); animation: none;">
@@ -634,14 +618,13 @@
     </div>
   </div>
   
-  <!-- MODAL KONFIRMASI KELUAR -->
   <div id="modalKonfirmasi" class="modal">
     <div class="modal-content" style="max-width: 380px; border: 1px solid rgba(239, 68, 68, 0.3);">
       <div class="special-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3); animation: none;">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
       </div>
       <h3 class="gradient-text" style="background: linear-gradient(to right, #ef4444, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Yakin Ingin Keluar?</h3>
-      <p class="modal-desc">Data input absensi di kelas ini yang <strong>belum dikirim</strong> ke Spreadsheet akan hilang secara permanen.</p>
+      <p class="modal-desc">Draft absensi lokal akan tetap tersimpan di HP ini untuk kelas & sesi tersebut.</p>
       <button class="btn-close-special" style="background: linear-gradient(90deg, #ef4444, #dc2626); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);" onclick="eksekusiKeluar()">Ya, Keluar</button>
       <button class="btn-cancel" onclick="toggleKonfirmasiModal(false)">Batal, Lanjutkan Absen</button>
     </div>
@@ -655,13 +638,60 @@
     const eyeIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>`;
     const eyeOffIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.39 2.7-3.13 3.44-5.09-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7 l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>`;
 
-    // LINK API GOOGLE APPS SCRIPT
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxJqB21sfGOrXqpD9OIKTM83yb6Et1PEymXJdT0rhidN1FW8vvgGuBG5ZnxUO8ff7ofg/exec";
     let currentClassStudents = [];
     let selectedStudentId = null;
     let sesiTerpilih = "Dhuha"; 
     let namaKelasGlobal = "";
     let kelasPilihanTertunda = ""; 
+
+    // --- FITUR DRAFT LOKAL (LOCALSTORAGE) ---
+    function getDraftKey() {
+      return `draft_absensi_${namaKelasGlobal}_${sesiTerpilih}`;
+    }
+
+    function simpanDraftLokal() {
+      if (!namaKelasGlobal || currentClassStudents.length === 0) return;
+      try {
+        localStorage.setItem(getDraftKey(), JSON.stringify(currentClassStudents));
+        updateDraftBadgeUI(true);
+      } catch (e) {
+        console.error("Gagal simpan draft lokal", e);
+      }
+    }
+
+    function muatDraftLokal() {
+      if (!namaKelasGlobal) return false;
+      const savedData = localStorage.getItem(getDraftKey());
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            currentClassStudents = parsed;
+            updateDraftBadgeUI(true);
+            return true;
+          }
+        } catch (e) {
+          console.error("Error parsing draft lokal", e);
+        }
+      }
+      updateDraftBadgeUI(false);
+      return false;
+    }
+
+    function hapusDraftLokal() {
+      if (!namaKelasGlobal) return;
+      localStorage.removeItem(getDraftKey());
+      updateDraftBadgeUI(false);
+    }
+
+    function updateDraftBadgeUI(adaDraft) {
+      const badge = document.getElementById("draftBadgeText");
+      if (badge) {
+        const hasEdited = currentClassStudents.some(s => s.status !== "Belum Diabsen");
+        badge.style.display = (adaDraft && hasEdited) ? "inline-block" : "none";
+      }
+    }
 
     function setSyncState(state, text) {
       const dot = document.getElementById("statusDot");
@@ -695,19 +725,16 @@
         btnBukaAkses.disabled = this.value.trim() === '';
       });
 
-      // Fitur tutup modal saat klik area luar (Click Outside to Close)
       document.querySelectorAll('.modal').forEach(m => {
         m.addEventListener('click', function(e) {
           if(e.target === this) this.style.display = 'none';
         });
       });
 
-      // Cek status koneksi otomatis saat pertama dimuat
       if (!navigator.onLine) {
         setSyncState("offline", "Offline");
       }
 
-      // Detector perubahan status jaringan real-time
       window.addEventListener('online', () => setSyncState("online", "Terhubung"));
       window.addEventListener('offline', () => setSyncState("offline", "Offline"));
     });
@@ -775,7 +802,6 @@
       document.getElementById("modalTentang").style.display = show ? "flex" : "none"; 
     }
 
-    // --- FUNGSI PILIH SESI ---
     function prepPilihKelas(kelas) {
       kelasPilihanTertunda = kelas;
       document.getElementById("sesiKelasText").innerText = `Kelas ${kelas}`;
@@ -804,9 +830,15 @@
       } else {
         btnDzuhur.classList.add("active", "active-dzuhur");
       }
+
+      const adaDraft = muatDraftLokal();
+      if (adaDraft) {
+        renderSiswaList(currentClassStudents);
+      } else {
+        pilihKelas(namaKelasGlobal, sesiTerpilih, true);
+      }
     }
 
-    // Modal Error Custom
     function showErrorModal(pesan) {
       document.getElementById("gagalDetailPesan").innerText = pesan || "Tidak dapat mengirim data. Anda sedang offline";
       document.getElementById("modalGagal").style.display = "flex";
@@ -816,21 +848,26 @@
       document.getElementById("modalGagal").style.display = "none";
     }
 
-    // --- LOGIKA REFRESH DATA KDI STYLE ---
     function refreshDataSiswa() {
       if (!namaKelasGlobal) return;
+      hapusDraftLokal(); // Hapus draft lama jika tombol refresh ditekan manual
       const btnRefresh = document.getElementById("btnRefresh");
       btnRefresh.classList.add("spinning");
       pilihKelas(namaKelasGlobal, sesiTerpilih, true);
     }
 
-    // --- LOGIKA FETCH AMBIL DATA (GET) ---
     function pilihKelas(namaKelas, sesiAwal, isRefresh = false) {
       namaKelasGlobal = namaKelas;
       document.getElementById("active-class-title").innerText = `Kelas ${namaKelas}`;
       document.getElementById("searchBar").value = "";
       
-      gantiSesiIbadah(sesiAwal); 
+      sesiTerpilih = sesiAwal;
+      const btnDhuha = document.getElementById("worshipDhuha");
+      const btnDzuhur = document.getElementById("worshipDzuhur");
+      btnDhuha.classList.remove("active");
+      btnDzuhur.classList.remove("active", "active-dzuhur");
+      if(sesiAwal === "Dhuha") btnDhuha.classList.add("active");
+      else btnDzuhur.classList.add("active", "active-dzuhur");
 
       const container = document.getElementById("studentListContainer");
       if (!isRefresh) {
@@ -857,20 +894,15 @@
             return;
           }
 
-          // Pertahankan status yang sudah sempat di-input petugas lokal jika refresh
-          if (isRefresh && currentClassStudents.length > 0) {
-            const statusMap = {};
-            currentClassStudents.forEach(s => statusMap[s.id] = s.status);
-
-            currentClassStudents = dataSiswaDariSheets.map(siswa => ({
-              ...siswa,
-              status: statusMap[siswa.id] || "Belum Diabsen"
-            }));
+          const savedData = localStorage.getItem(getDraftKey());
+          if (savedData) {
+            muatDraftLokal();
           } else {
             currentClassStudents = dataSiswaDariSheets.map(siswa => ({
               ...siswa,
               status: "Belum Diabsen"
             }));
+            updateDraftBadgeUI(false);
           }
 
           renderSiswaList(currentClassStudents);
@@ -881,7 +913,12 @@
           if(btnRefresh) btnRefresh.classList.remove("spinning");
 
           console.error("Error fetching data:", error);
-          container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Gagal terhubung ke server!</p>`;
+          
+          if (!muatDraftLokal()) {
+            container.innerHTML = `<p style="text-align:center; opacity:0.6; margin-top:20px; color:#ef4444; font-weight:600;">⚠️ Gagal terhubung ke server!</p>`;
+          } else {
+            renderSiswaList(currentClassStudents);
+          }
           setSyncState("offline", "Offline");
         });
     }
@@ -942,11 +979,11 @@
       if(idx !== -1) currentClassStudents[idx].status = statusBaru;
       
       document.getElementById("searchBar").value = "";
+      simpanDraftLokal(); // OTOMATIS SIMPAN KE LOCALSTORAGE SAAT MENGUBAH STATUS
       renderSiswaList(currentClassStudents);
       toggleStatusModal(false);
     }
 
-    // --- KONTROL MODAL KONFIRMASI PENGIRIMAN ---
     function bukaModalKonfirmasiKirim() {
       if (!navigator.onLine) {
         setSyncState("offline", "Offline");
@@ -976,11 +1013,10 @@
       kirimKeSpreadsheet();
     }
 
-    // --- LOGIKA FETCH KIRIM DATA (POST) ---
     function kirimKeSpreadsheet() {
       const btn = document.getElementById("btnKirimData");
 
-      btn.innerHTML = '<span class="spinner"></span> Mengirim...';
+      btn.innerHTML = '<span class="spinner"></span> Menyimpan ke Spreadsheet...';
       btn.style.pointerEvents = 'none';
 
       setSyncState("loading", "Mengirim...");
@@ -1004,6 +1040,7 @@
         btn.style.pointerEvents = 'auto';
 
         if (res.success) {
+          hapusDraftLokal(); // HAPUS DRAFT SETELAH BERHASIL DISIMPAN KE SPREADSHEET
           document.getElementById("suksesDetailPesan").innerHTML = `Data absensi <strong>Kelas ${namaKelasGlobal}</strong> untuk sesi <strong>Sholat ${sesiTerpilih}</strong> sukses`;
           document.getElementById("modalSukses").style.display = "flex";
           setSyncState("online", "Terhubung");
@@ -1017,7 +1054,7 @@
         btn.innerHTML = 'Kirim Absensi';
         btn.style.pointerEvents = 'auto';
         setSyncState("offline", "Offline");
-        showErrorModal("Tidak dapat mengirim data. Anda sedang offline");
+        showErrorModal("Gagal terhubung! Data aman tersimpan di HP, silakan coba kirim ulang nanti.");
       });
     }
 
@@ -1040,7 +1077,6 @@
       document.getElementById("attendance-view").style.display = "none";
     }
 
-    // Registrasi Service Worker untuk PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
